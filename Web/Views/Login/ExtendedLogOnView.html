@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Extended LogOn View</title>
+</head>
+<body>
+
+    <div class="extendedLogOnView fragment" data-bind="with: viewModel">
+
+        <!-- Indeterminate wait -->
+        <div data-bind="loader: { visible: busy }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { titleResx: 'string_11000', data: $parent }">
+
+            <div data-bind="pivot: { headerItemsAxBubbleAttr: 'extendedLogOnView_pivotItemsHeader' }, resx: { ariaLabel: 'string_4454' }">
+                <div data-bind="pivotItem: { headerResx: 'string_11000' }">
+                    <div id="extendedLogonList" data-bind="dataList: {
+                        itemDataSource: foundEmployees,
+                        selectionModes: Commerce.Controls.DataList.SelectionMode.SingleSelect,
+                        selectionChanged: $parent.employeeSelectionChanged.bind($parent),
+                        columns: [
+                            { titleResx: 'string_11002', ratio: 40, collapseOrder: 2, minWidth: 120, field: 'StaffId' },
+                            { titleResx: 'string_11003', ratio: 60, collapseOrder: 1, minWidth: 200, field: 'Name' }
+                        ]
+                        },
+                    axBubbleAttr: 'extendedLogOnView_foundEmployees'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom app bar -->
+            <div id="commandAppBar" data-bind="appBar:{}, axBubbleAttr: 'extendedLogOnView_commandAppBar'">
+                <button data-bind="appBarCommand: {
+                    id: 'searchLogOnOperator',
+                    extraClass: 'iconSearch',
+                    onclick: searchEmployee,
+                    labelResx: 'string_10084'},
+                    axBubbleAttr: 'extendedLogOnView_searchButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    id: 'unassign',
+                    extraClass: 'iconUndo',
+                    onclick: unassignStart,
+                    enabled: isEmployeeSelected,
+                    labelResx: 'string_11004'},
+                    axBubbleAttr: 'extendedLogOnView_unassignButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    id: 'assign',
+                    extraClass: 'iconPermissions',
+                    onclick: assignStart,
+                    enabled: isEmployeeSelected,
+                    labelResx: 'string_11005'},
+                    axBubbleAttr: 'extendedLogOnView_assignButton'"></button>
+            </div>
+
+            <!-- Dialogs -->
+            <!-- Assign -->
+            <div data-bind="dialog: {
+                title: Commerce.ViewModelAdapter.getResourceString('string_11006'),
+                subTitle: Commerce.ViewModelAdapter.getResourceString('string_11007'),
+                message: selectedEmployeeText,
+                visible: assignInProgress,
+                buttons: [
+                    { label: Commerce.ViewModelAdapter.getResourceString('string_75'), operationId: Commerce.Controls.Dialog.OperationIds.OK_BUTTON_CLICK, isPrimary: true, disable: extendedLogonTokenUnavailable },
+                    { label: Commerce.ViewModelAdapter.getResourceString('string_76'), operationId: Commerce.Controls.Dialog.OperationIds.CANCEL_BUTTON_CLICK, isPrimary: false }
+                ],
+                buttonClick: $parent.assignDialogButtonClick.bind($parent)
+                },
+                axBubbleAttr: 'extendedLogOnView_assignDialog'">
+            </div>
+            <!-- Unassign -->
+            <div data-bind="dialog: {
+                title: Commerce.ViewModelAdapter.getResourceString('string_11008'),
+                subTitle: Commerce.ViewModelAdapter.getResourceString('string_11009'),
+                message: selectedEmployeeText,
+                visible: unassignInProgress,
+                buttons: [
+                    { label: Commerce.ViewModelAdapter.getResourceString('string_77'), operationId: Commerce.Controls.Dialog.OperationIds.OK_BUTTON_CLICK, isPrimary: true },
+                    { label: Commerce.ViewModelAdapter.getResourceString('string_78'), operationId: Commerce.Controls.Dialog.OperationIds.CANCEL_BUTTON_CLICK, isPrimary: false }
+                ],
+                buttonClick: $parent.unAssignDialogButtonClick.bind($parent)
+                },
+                axBubbleAttr: 'extendedLogOnView_unassignDialog'">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

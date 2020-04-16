@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Knockout header markup.</title>
+    <link href="knockout.headerSplitView.min.css" rel="stylesheet" />
+</head>
+<body>
+    <script id="headerSplitViewNavButtonTemplate" type="text/html">
+        <div data-bind="attr: { class: 'width48 height48 buttonIcon primaryFontColor center ' + iconCssClass }"></div>
+        <div class="grow padTop8" data-bind="ifnot: Commerce.StringExtensions.isNullOrWhitespace($data.labelResx)">
+            <div class="h3 primaryFontColor textLeft" data-bind="resx: { textContent: labelResx }">Text</div>
+        </div>
+    </script>
+    <script id="headerSplitViewUserTemplate" type="text/html">
+        <div class="row height48 win-interactive">
+            <div class="height48 width48 center">
+                <img data-bind="attr: { src: Commerce.Session.instance.picture() }, setImageOnError: Commerce.DefaultImages.DefaultUser" class="height40 width40 circleBorder" src="#" />
+            </div>
+            <div class="grow col padLeft8 padTop4">
+                <div class="h4 primaryFontColor row" data-bind="text: Commerce.Session.instance.userName()">Name</div>
+                <div class="h6 primaryFontColor textTransformNone padTop4 row opacity60" data-bind="text: Commerce.Session.instance.shiftId() + ' - ' + Commerce.Session.instance.shiftTerminalId()">Additional info</div>
+            </div>
+        </div>
+    </script>
+    <script id="headerSplitViewTopTemplate" type="text/html">
+        <div data-bind="loader: { visible: isBusy }"></div>
+        <div class="height48 centerY row grow headerHighContrastBorderThin">
+            <div class="splitViewTitleSection row" data-bind="css: { grow: !isHeaderContentVisible(), ratio3: splitViewTitleSectionRatioEnabled }">
+                <div data-bind="visible: isHeaderSplitViewToggleButtonVisible">
+                    <button class="headerSplitViewToggleButton" data-bind="css: { togglefor200Percent: !splitViewTitleSectionRatioEnabled() }"></button>
+                </div>
+                <div class="splitViewTitle grow height48 centerY" data-bind="visible: isHeaderContentVisible">
+                    <div class="h6 marginLeft07 marginRight12 ellipsis" data-bind="text: title">Section Title</div>
+                </div>
+            </div>
+            <div class="splitViewSearchControl row grow marginTop4"
+                 data-bind="headerSearch: {
+                 isCompactMode: isCompactMode,
+                 searchText: searchText,
+                 searchClicked: searchClicked,
+                 searchBySearchFieldClicked: searchBySearchFieldClicked,
+                 splitViewTitleSelector: '.splitViewTitle',
+                 searchType: searchType,
+                 hideProductSuggestions: hideProductSuggestions,
+                 setFocusOnSearchText: setFocusOnSearchText,
+                 showCustomerSearchFields: showCustomerSearchFields,
+                 allowSearchHelper: allowSearchHelper,
+                 hideCustomerSearchCategory: hideCustomerHeaderSearchCategory,
+                 hideProductSearchCategory: hideProductHeaderSearchCategory
+                 },
+                 visible: isHeaderContentVisible() && isSearchVisible() && Commerce.Session.instance.isLoggedOn,
+                 axBubbleAttr: 'headerSplitView_searchSection'">
+            </div>
+            <div class="selfPackingControlSection row alignRight" data-bind="css: { ratio3: !isCompactMode() }, visible: isHeaderContentVisible() && Commerce.Session.instance.isLoggedOn">
+                <div class="headerSplitViewSelfPackingList grow" data-bind="selfPackingList: selfPackingListItems"></div>
+            </div>
+        </div>
+    </script>
+
+    <script id="headerSplitViewExpandedPaneTemplate" type="text/html">
+        <div class="stretch col">
+            <!-- Pane area -->
+            <!--NavBarExtension: Categories  -->
+            <div id="splitViewCategoriesPanel" class="col splitViewBackgroundColor padLeft20 left48 maxWidth272 scrollX" data-bind="if: renderCategoryTree" style="display:none">
+                <div class="row height48 center padBottom12"
+                     data-bind="buttonBlock: {
+                        buttonClass: 'iconSwitch',
+                        labelTextResx: 'string_34', /* Change catalog */
+                        click: navigateToCatalogsView
+                    },
+                    axBubbleAttr: 'headerSplitView_changeCatalogButton'">
+                </div>
+                <div class="height20"></div>
+                <div class="scrollY"
+                     data-bind="incrementalScrollableControl: {
+                             dataRenderer: new Commerce.Controls.IncrementalControl.CategoryTreeDataRenderer(Commerce.Session.instance.categoryTree(), navigateToProductsView)
+                         },
+                         axBubbleAttr: 'headerSplitView_categoryList'">
+                </div>
+            </div>
+
+            <!--NavBarExtension: MiniCart  -->
+            <div id="splitViewMiniCartPanel" class="col splitViewBackgroundColor padLeft12 padRight12 padTop48 left48 maxWidth272 scrollX" style="display:none">
+                <div class="padTop8 padLeft8 height48">
+                    <div class="h2" data-bind="text: miniCartItemCount"></div>
+                </div>
+
+                <div class="height48" data-bind="with : miniCart">
+                    <div class="h1 textRight" data-bind="formatPrice: TotalAmount"></div>
+                </div>
+                <div class="height20"></div>
+                <div class="scrollY col" data-bind="with : miniCart">
+                    <div data-bind="foreach: { data: CartLines, as: 'miniCartLine' }">
+                        <!-- ko ifnot: miniCartLine.IsVoided -->
+                        <div class="height72 row marginBottom12">
+                            <div class="width72 height72 col">
+                                <div class="width72 height40" data-bind="with : Commerce.HeaderSplitViewModel.getProductPrimaryImage(miniCartLine)()">
+                                    <img class="width72 height72" src="#" data-bind="attr: {
+                                         src: Uri,
+                                         alt: AltText }, setImageOnError: Commerce.DefaultImages.ProductSmall" />
+                                </div>
+                                <div class="width72 height32 overLayZIndex primaryBackgroundColor padTop12 padLeft12">
+                                    <div class="h4 ellipsis" data-bind="text: miniCartLine.Quantity"></div>
+                                </div>
+                            </div>
+                            <div class="padLeft12 width192 padRight12 padTop12">
+                                <div class="h4 ellipsis" data-bind="textConverter: { data: miniCartLine, field: '$data', converter: 'Commerce.Core.Converter.ProductNameFormatter' }"></div>
+                                <div class="h4 ellipsis" data-bind="text: miniCartLine.ItemId"></div>
+                                <div class="h4 secondaryFontColor ellipsis " data-bind="textConverter: { data: miniCartLine, field: '$data', converter: 'Commerce.Formatters.VariantNameFormatter' }"></div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+                <div class="height52"></div>
+            </div>
+
+            <div class="height48 centerY">
+                <button class="headerSplitViewToggleButton expandedNavButton" data-bind="axBubbleAttr: 'headerSplitView_expand'"></button>
+            </div>
+
+            <div class="col grow">
+                <div class="grow scrollY">
+                    <div data-bind="if: Commerce.HeaderSplitViewModel.isBackButtonAllowed">
+                        <button data-bind="visible: navigateBackVisible, headerSplitViewButton: { iconCssClass: 'iconBack', click: navigateBack }, axBubbleAttr: 'headerSplitView_navigateBack',
+                                resx: { ariaLabel: 'string_49' }"
+                                data-ui-automation="navigate-back-click-element">
+                            <!-- Back -->
+                        </button>
+                        <div class="width48 height48" data-bind="visible: !navigateBackVisible()"></div>
+                    </div>
+                    <div data-bind="if: Commerce.Session.instance.isLoggedOn">
+                        <button data-bind="headerSplitViewButton: { iconCssClass: 'iconHome', labelResx: 'string_21' },interaction:
+                            {click: { navigate:'HomeView' }},
+                            axBubbleAttr: 'headerSplitView_navHome'">
+                            <!-- Home -->
+                        </button>
+                        <button data-bind="headerSplitViewButton: { iconCssClass: 'iconProductVariant', labelResx: 'string_82' },interaction:
+                                {click: { navigate:'CategoriesView' }},
+                                axBubbleAttr: 'headerSplitView_navCatalog'">
+                            <!-- categories -->
+                        </button>
+                        <button id="splitViewToggleCategoriesButton" data-bind="headerSplitViewButton: {
+                                iconCssClass: 'iconList', labelResx: 'string_47', click: showCategories}, axBubbleAttr: 'headerSplitView_navCategory'">
+                            <!-- categories -->
+                        </button>
+                        <button data-bind="headerSplitViewButton: { iconCssClass: 'iconShop', labelResx: 'string_108' },interaction:
+                                {click: { navigate:'CartView' }},
+                                axBubbleAttr: 'headerSplitView_navMiniCart'">
+                            <!-- Transaction -->
+                        </button>
+                        <button id="splitViewMiniCartButton" class="row" data-bind="headerSplitViewButton: { click: showMiniCart },
+                                axBubbleAttr: 'headerSplitView_miniCartButton'">
+                            <div class="h2 height48 width48 center primaryFontColor" data-bind="text: $data.currentCartItemCount, visible:!$data.reduceItemCountDescriptionSize()">
+                                <!-- Cart Count -->
+                            </div>
+                            <div class="h5 height48 width48 center primaryFontColor" data-bind="text: $data.currentCartItemCount, visible:$data.reduceItemCountDescriptionSize()">
+                                <!-- Cart Count -->
+                            </div>
+                            <div class="grow padTop8">
+                                <div class="h3 primaryFontColor textLeft" data-bind="text: transactionSummaryOptionsText()">Text</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="no-shrink marginTop20" data-bind="visible: Commerce.UI.Tutorial.isBubbleTourInProgress">
+                    <div class="height48 width48 center">
+                        <div class="bubble-close" data-bind="invoke: Commerce.UI.Tutorial.stopBubbleTour, axBubbleAttr: 'nav_stopTour'" tabindex="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div data-bind="if: !Commerce.Session.instance.isLoggedOn">
+                    <button data-bind="headerSplitViewButton: { iconCssClass: 'iconSettings icon-20x20', labelResx: 'string_7400' },
+                                interaction:{ click: { navigate:'SettingsView' } },
+                                axBubbleAttr: 'headerSplitView_settingsButton'">
+                        <!-- Settings -->
+                    </button>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="SelfPackingUserInfoUnpacked" type="text/html">
+        <button id="showUserInfoButton" class="grow row height48 pad0 headerBackgroundColor headerBackgroundColorHover" data-bind="click: Commerce.HeaderSplitViewModel.callUserInfoDialog, axBubbleAttr: 'headerSplitView_userInfo'">
+            <div class="grow col padTop4 padLeft8">
+                <div class="h4 row" data-bind="text: Commerce.Session.instance.userName()">Name</div>
+                <div class="h6 textTransformNone padTop4 row opacity60" data-bind="text: Commerce.Session.instance.shiftId() + ' - ' + Commerce.Session.instance.shiftTerminalId()">Additional info</div>
+            </div>
+            <div class="height48 width48 center">
+                <img data-bind="attr: { src: Commerce.Session.instance.picture() }, setImageOnError: Commerce.DefaultImages.DefaultUser" class="height40 width40 circleBorder" src="#" />
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingUserInfoPacked" type="text/html">
+        <button class="grow row height48 pad0" data-bind="click: Commerce.HeaderSplitViewModel.callUserInfoDialog">
+            <div class="height48 width48 center">
+                <img data-bind="attr: { src: Commerce.Session.instance.picture() }, setImageOnError: Commerce.DefaultImages.DefaultUser" class="height40 width40 circleBorder" src="#" />
+            </div>
+            <div class="grow col padLeft8 padTop4">
+                <div class="h4 row" data-bind="text: Commerce.Session.instance.userName()">Name</div>
+                <div class="h6 textTransformNone padTop4 row opacity60" data-bind="text: Commerce.Session.instance.shiftId() + ' - ' + Commerce.Session.instance.shiftTerminalId()">Additional info</div>
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingNotificationUnpacked" type="text/html">
+        <button class="grow row height48 pad0 headerBackgroundColor headerBackgroundColorHover center"
+                data-bind="click : Commerce.HeaderSplitViewModel.callNotificationCenterDialog,
+                 resx: { ariaLabel: 'string_13200', /* Notifications */ },
+                 attr: {title: Commerce.ViewModelAdapter.getResourceString('string_13200'), /* Notifications */ },
+                 axBubbleAttr: 'headerSplitView_notificationCenterButton'">
+            <div class="buttonIcon height20"
+                 data-bind="css:{ iconActionCenter: !isNewNotifications(), iconActionCenterNotification: isNewNotifications },
+                            resx: { ariaLabel: 'string_13200', /* Notifications */ }">
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingNotificationPacked" type="text/html">
+        <button class="grow row height48 pad0"
+                data-bind="click: Commerce.HeaderSplitViewModel.callNotificationCenterDialog,
+                 resx: { ariaLabel: 'string_13200', /* Notifications */ },
+                 axBubbleAttr: 'headerSplitView_notificationCenterButton'">
+            <div class="buttonIcon height20 margin12" data-bind="css:{ iconActionCenter: !isNewNotifications(), iconActionCenterNotification: isNewNotifications }">
+            </div>
+            <div class="grow col marginLeft8 padTop12">
+                <div class="h4 row" data-bind="resx: { textContent: 'string_13200' /* Notifications */ }"></div>
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingHelpUnpacked" type="text/html">
+        <button class="grow row height48 pad0 headerBackgroundColor headerBackgroundColorHover center"
+                data-bind="click: openHelpPane, resx: { ariaLabel: 'string_7' /* Help */ },
+                attr: {title: Commerce.ViewModelAdapter.getResourceString('string_7'), /* Help */ },
+                axBubbleAttr: 'headerSplitView_helpButton'">
+            <div class="iconHelp buttonIcon height20">
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingHelpPacked" type="text/html">
+        <button class="grow row height48 pad0"
+                data-bind="click: openHelpPane, resx: { ariaLabel: 'string_7' /* Help */ }, axBubbleAttr: 'headerSplitView_helpButton'">
+            <div class="iconHelp buttonIcon height20 margin12">
+            </div>
+            <div class="grow col marginLeft8 padTop12">
+                <div class="h4 row" data-bind="resx: { textContent: 'string_7' /* Help */ }"></div>
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingSettingsUnpacked" type="text/html">
+        <button class="grow row height48 pad0 headerBackgroundColor headerBackgroundColorHover center"
+                data-bind="interaction:{
+                        click: { navigate:'SettingsView' }
+                     }, resx: { ariaLabel: 'string_7400' /* setting */ },
+                     attr: {title: Commerce.ViewModelAdapter.getResourceString('string_7400'), /* setting */ },
+                     axBubbleAttr: 'headerSplitView_settingsButton'">
+            <div class="iconSettings buttonIcon height20">
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingSettingsPacked" type="text/html">
+        <button class="grow row height48 pad0"
+                data-bind="interaction:{
+                        click: { navigate:'SettingsView' }
+                     }, resx: { ariaLabel: 'string_7400' /* setting */ },
+                     axBubbleAttr: 'headerSplitView_settingsButton'">
+            <div class="iconSettings buttonIcon height20 margin12">
+            </div>
+            <div class="grow col marginLeft8 padTop12">
+                <div class="h4 row" data-bind="resx: { textContent: 'string_7400' /* setting */ }"></div>
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingConnectionStatusUnpacked" type="text/html">
+        <button class="grow row height48 pad0 headerBackgroundColor headerBackgroundColorHover center"
+                data-bind="click : Commerce.HeaderSplitViewModel.callConnectivityStatusDialog,
+                 css:{ buttonBlocked: !isConnected(), pulse: isConnectionStatusPulsing },
+                 resx: { ariaLabel: 'string_8097', /* Database Connectivity */ },
+                 attr: {title: Commerce.ViewModelAdapter.getResourceString('string_8097'), /* Database Connectivity */ },
+                 axBubbleAttr: 'headerSplitView_connectivityStatusButton'">
+            <div class="buttonIcon height20" data-bind="css:{ iconSync: isConnected, iconBlocked: !isConnected() } ">
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingConnectionStatusPacked" type="text/html">
+        <button class="grow row height48 pad0"
+                data-bind="click: Commerce.HeaderSplitViewModel.callConnectivityStatusDialog,
+                css:{ pulse: isConnectionStatusPulsing },
+                 resx: { ariaLabel: 'string_8097', /* Database Connectivity */ },
+                 axBubbleAttr: 'headerSplitView_connectivityStatusButton'">
+            <div class="buttonIcon height20 margin12" data-bind="css:{ iconSync: isConnected, iconBlocked: !isConnected() }">
+            </div>
+            <div class="grow col marginLeft8 padTop4">
+                <div class="h4 row" data-bind="resx: { textContent: 'string_8097' /* Database Connectivity */ }"></div>
+                <div class="h4 row opacity60" data-bind="text: connectivityStatus"></div>
+            </div>
+        </button>
+    </script>
+    <script id="SelfPackingTaskRecorderUnpacked" type="text/html">
+        <div class="splitViewTaskRecorderSection row alignRight" data-bind="axBubbleAttr: 'headerSplitView_openRecordingPane'">
+            <button class="buttonIcon width48 height48 center headerTaskRecorderBackgroundColor cursorDefault" type="button"
+                    data-bind="css: { iconRadioBullet: isRecordingInProgress, iconPause: isRecordingPaused }"></button>
+            <button class="buttonIcon width48 height48 center headerTaskRecorderBackgroundColor headerBackgroundColorHover iconSidePane"
+                    type="button" data-bind="click: openRecordingPane, resx: { ariaLabel: 'string_10011' /* Task Recorder */ }"></button>
+        </div>
+    </script>
+    <script id="SelfPackingTaskRecorderPacked" type="text/html">
+        <button class="grow row height48 pad0"
+                data-bind="click: openRecordingPane, resx: { ariaLabel: 'string_10011' /* Task Recorder */ }, axBubbleAttr: 'headerSplitView_openRecordingPane'">
+            <div class="buttonIcon height20 margin12" data-bind="css: { iconRecording: isRecordingInProgress, iconPause: isRecordingPaused }">
+            </div>
+            <div class="grow col marginLeft8 padTop12">
+                <div class="h4 row" data-bind="resx: { textContent: 'string_10011' /* Task Recorder */ }"></div>
+            </div>
+        </button>
+    </script>
+</body>
+</html>

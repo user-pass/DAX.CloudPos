@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>HomeView</title>
+    <link href="HomeView.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="fragment homeView">
+
+        <!-- Progress ring -->
+        <div data-bind="loader: { visible: indeterminateWaitVisible }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: {navigateBackVisible: false}">
+            <div class="section">
+                <div data-bind="pivot: {}">
+                    <!-- ko foreach: viewModel.buttonGridData -->
+                    <div data-bind="pivotItem: { header: $data.Name }">
+                        <div data-bind="buttonGrid: {
+                                id: 'WelcomeScreenButtonGrid-' + $index(),
+                                buttonClick: $root.buttonGridClick,
+                                callbackContext: $root,
+                                data: $data
+                            }">
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

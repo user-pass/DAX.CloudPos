@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Line Grid Templates</title>
+</head>
+<body>
+
+    <!-- Binding template for the CartPage line grid header row. -->
+    <script type="text/html" id="cartLineGridHeaderTemplate">
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ProductNameField") -->
+        <div class="tillLayout-ProductNameField">
+            <div class="h6" data-bind="resx: { textContent: 'string_110' }">ITEM</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "QuantityField") -->
+        <div class="tillLayout-QuantityField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_111' }">QUANTITY</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "DeliveryMethodField") -->
+        <div class="tillLayout-DeliveryMethodField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4467' }">DELIVERY</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "DeliveryStatusField") -->
+        <div class="tillLayout-DeliveryStatusField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_191' }">STATUS</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "BarcodeIdField") -->
+        <div class="tillLayout-BarcodeIdField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4431' }">BAR CODE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "SizeField") -->
+        <div class="tillLayout-SizeField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4433' }">SIZE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ColorField") -->
+        <div class="tillLayout-ColorField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4434' }">COLOR</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "StyleField") -->
+        <div class="tillLayout-StyleField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4435' }">STYLE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ConfigurationField") -->
+        <div class="tillLayout-ConfigurationField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4436' }">CONFIGURATION</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "LinkedProductField") -->
+        <div class="tillLayout-LinkedProductField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4438' }">LINKED PRODUCT</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "OfferIdField") -->
+        <div class="tillLayout-OfferIdField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4462' }">OFFER ID</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "OriginalPriceField") -->
+        <div class="tillLayout-OriginalPriceField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4439' }">ORIGINAL PRICE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxAmountField") -->
+        <div class="tillLayout-TaxAmountField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4440' }">TAX AMOUNT</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxCodeField") -->
+        <div class="tillLayout-TaxCodeField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4441' }">TAX CODE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxPercentageField") -->
+        <div class="tillLayout-TaxPercentageField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4442' }">TAX PERCENTAGE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TotalWithTaxField") -->
+        <div class="tillLayout-TotalWithTaxField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4443' }">TOTAL (with tax)</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TotalWithoutTaxField") -->
+        <div class="tillLayout-TotalWithoutTaxField textRight">
+            <div class="h6" data-bind="resx: { textContent: 'string_4444' }">TOTAL (without tax)</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "UnitOfMeasureField") -->
+        <div class="tillLayout-UnitOfMeasureField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4445' }">UNIT OF MEASURE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ItemIdField") -->
+        <div class="tillLayout-ItemIdField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4446' }">ITEM ID</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "SalesRepresentativeField") -->
+        <div class="tillLayout-SalesRepresentativeField">
+            <div class="h6" data-bind="resx: { textContent: 'string_4447' }">SALES REPRESENTATIVE</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn1.isVisible() -->
+        <div class="tillLayout-CustomColumn1" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn1.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn1.title()">CUSTOM COLUMN 1</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn2.isVisible() -->
+        <div class="tillLayout-CustomColumn2" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn2.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn2.title()">CUSTOM COLUMN 2</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn3.isVisible() -->
+        <div class="tillLayout-CustomColumn3" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn3.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn3.title()">CUSTOM COLUMN 3</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn4.isVisible() -->
+        <div class="tillLayout-CustomColumn4" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn4.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn4.title()">CUSTOM COLUMN 4</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn5.isVisible() -->
+        <div class="tillLayout-CustomColumn5" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn5.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn5.title()">CUSTOM COLUMN 5</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn6.isVisible() -->
+        <div class="tillLayout-CustomColumn6" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn6.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn6.title()">CUSTOM COLUMN 6</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn7.isVisible() -->
+        <div class="tillLayout-CustomColumn7" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn7.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn7.title()">CUSTOM COLUMN 7</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn8.isVisible() -->
+        <div class="tillLayout-CustomColumn8" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn8.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn8.title()">CUSTOM COLUMN 8</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn9.isVisible() -->
+        <div class="tillLayout-CustomColumn9" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn9.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn9.title()">CUSTOM COLUMN 9</div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn10.isVisible() -->
+        <div class="tillLayout-CustomColumn10" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn10.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h6" data-bind="text: templateViewModel.customColumnsViewModel.customColumn10.title()">CUSTOM COLUMN 10</div>
+        </div>
+        <!-- /ko -->
+    </script>
+
+    <!-- Binding template for CartPage line grid row. -->
+    <script type="text/html" id="cartLineGridRowTemplate">
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ProductNameField") -->
+        <div class="tillLayout-ProductNameField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.ProductNameFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_110' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "QuantityField") -->
+        <div class="tillLayout-QuantityField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.CartLineQuantityFormat', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_111' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "DeliveryMethodField") -->
+        <div class="tillLayout-DeliveryMethodField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Formatters.DeliveryDescriptionAndDateFormatter', defaultValue: '', type: 'html', ariaLabel: 'true', columnToBindResx: 'string_4467' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "DeliveryStatusField") -->
+        <div class="tillLayout-DeliveryStatusField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Formatters.CustomerOrderStatusFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_191' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "BarcodeIdField") -->
+        <div class="tillLayout-BarcodeIdField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'Barcode', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4431' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "SizeField") -->
+        <div class="tillLayout-SizeField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.SizeNameFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4433' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ColorField") -->
+        <div class="tillLayout-ColorField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.ColorNameFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4434' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "StyleField") -->
+        <div class="tillLayout-StyleField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.StyleNameFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4435' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ConfigurationField") -->
+        <div class="tillLayout-ConfigurationField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.ConfigurationNameFormatter' , defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4436' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "LinkedProductField") -->
+        <div class="tillLayout-LinkedProductField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Core.Converter.LinkedProductFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4438' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "OfferIdField") -->
+        <div class="tillLayout-OfferIdField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', defaultValue: '', converter: 'Commerce.Core.Converter.OfferIdFormatter', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4462' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "OriginalPriceField") -->
+        <div class="tillLayout-OriginalPriceField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', defaultValue: '', converter: 'Commerce.Core.Converter.OriginalPriceFormatter', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4439' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxAmountField") -->
+        <div class="tillLayout-TaxAmountField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'TaxAmount', converter: 'Commerce.Core.Converter.PriceFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4440' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxCodeField") -->
+        <div class="tillLayout-TaxCodeField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'ItemTaxGroupId', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4441' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TaxPercentageField") -->
+        <div class="tillLayout-TaxPercentageField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'TaxRatePercent', converter: 'Commerce.Core.Converter.DecimalFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4442' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TotalWithTaxField") -->
+        <div class="tillLayout-TotalWithTaxField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'TotalAmount', converter: 'Commerce.Core.Converter.PriceFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4443' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "TotalWithoutTaxField") -->
+        <div class="tillLayout-TotalWithoutTaxField textRight">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'NetAmountWithoutTax', converter: 'Commerce.Core.Converter.PriceFormatter', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4444' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "UnitOfMeasureField") -->
+        <div class="tillLayout-UnitOfMeasureField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: 'Commerce.Formatters.CartLineUnitOfMeasureFormat', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4445' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "ItemIdField") -->
+        <div class="tillLayout-ItemIdField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'ItemId', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4446' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.screenLayout.getConfigurationProperty("SelectedLinesFields", "SalesRepresentativeField") -->
+        <div class="tillLayout-SalesRepresentativeField">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: 'CommissionSalesGroup', defaultValue: '', type: 'text', ariaLabel: 'true', columnToBindResx: 'string_4447' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn1.isVisible() -->
+        <div class="tillLayout-CustomColumn1" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn1.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn1, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn2.isVisible() -->
+        <div class="tillLayout-CustomColumn2" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn2.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn2, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn3.isVisible() -->
+        <div class="tillLayout-CustomColumn3" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn3.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn3, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn4.isVisible() -->
+        <div class="tillLayout-CustomColumn4" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn4.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn4, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn5.isVisible() -->
+        <div class="tillLayout-CustomColumn5" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn5.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn5, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn6.isVisible() -->
+        <div class="tillLayout-CustomColumn6" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn6.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn6, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn7.isVisible() -->
+        <div class="tillLayout-CustomColumn7" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn7.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn7, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn8.isVisible() -->
+        <div class="tillLayout-CustomColumn8" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn8.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn8, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn9.isVisible() -->
+        <div class="tillLayout-CustomColumn9" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn9.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn9, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: templateViewModel.customColumnsViewModel.customColumn10.isVisible() -->
+        <div class="tillLayout-CustomColumn10" data-bind="css: { textRight: templateViewModel.customColumnsViewModel.customColumn10.alignment() === Commerce.Extensibility.CustomGridColumnAlignment.Right }">
+            <div class="h5" data-bind="textConverter: { data: dataRow, field: '$data', converter: templateViewModel.customColumnsViewModel.customColumn10, defaultValue: '', type: 'text' }"></div>
+        </div>
+        <!-- /ko -->
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Deposit Override View</title>
+    <link href="DepositOverrideView.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="fragment depositOverrideView" data-bind="with: viewModel">
+
+        <!-- Indeterminate wait -->
+        <div data-bind="loader: { visible: isBusy }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { titleResx: 'string_4600' }">
+
+            <!-- Content -->
+            <div class="section main row noflip marginBottom12 marginLeft20 marginRight20 ">
+
+                <div class="minWidth260 maxWidth320">
+                    <div data-bind="sectionWrapper: {headerResx: 'string_4601' }">
+                        <!-- Current deposit amount -->
+                        <a href="#" class="h1" data-bind="formatPrice: currentDeposit, attr: {'aria-label': Commerce.StringExtensions.format(Commerce.ViewModelAdapter.getResourceString('string_1831'),
+                                        Commerce.ViewModelAdapter.getResourceString('string_4601'), ariaLabelCurrentDeposit)},
+                           click: setFullOverridenDepositAmount, axBubbleAttr: 'depositOverrideView_setFullOverridenDepositAmountLink'"></a>
+                    </div>
+
+                    <div data-bind="sectionWrapper: {headerResx: 'string_4606' }, visible: isCustomerOrderPickup">
+                        <!-- Available deposit amount -->
+                        <a href="#" class="h1" data-bind="formatPrice: availableDepositAmount, attr: {'aria-label': Commerce.StringExtensions.format(Commerce.ViewModelAdapter.getResourceString('string_1831'),
+                                        Commerce.ViewModelAdapter.getResourceString('string_4606'), ariaLabelAvailableDeposit)},
+                            click: setDepositAvailableAmount, axBubbleAttr: 'depositOverrideView_setDepositAvailableAmountLink'"></a>
+                    </div>
+
+                    <div data-bind="sectionWrapper: {headerResx: 'string_4607' }, visible: isCustomerOrderCreateOrEdit">
+                        <!-- Maximum override amount -->
+                        <a href="#" class="h1" data-bind="formatPrice: maximumOverrideAmount, attr: {'aria-label': Commerce.StringExtensions.format(Commerce.ViewModelAdapter.getResourceString('string_1831'),
+                                        Commerce.ViewModelAdapter.getResourceString('string_4607'), ariaLabelMaximumOverrideAmount)},
+                            click: setMaximumOverrideAmount, axBubbleAttr: 'depositOverrideView_setMaximumOverrideAmountLink'"></a>
+                    </div>
+                </div>
+
+                <div class="gutter40x40"></div>
+
+                <div class="width320 marginTop12" data-bind="axBubbleAttr: 'depositOverrideView_depositAmountNumpad'">
+                    <div data-bind="currencyNumpad: {
+                        labelDataBinding: { resx: { textContent: 'string_4605' /* New deposit amount */ } },
+                        inputDataBinding: { resx: { ariaLabel: 'string_4605' /* New deposit amount */ } },
+                        onEnter: overrideDeposit,
+                        value: depositAmountToOverride,
+                        numPadInputSource: $parent.numPadInputBroker
+                     }">
+                    </div>
+                </div>
+            </div>
+            <div id="commandAppBar" data-bind="appBar:{}, axBubbleAttr: 'depositOverrideView_commandAppBar'">
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconUndo',
+                    id:'clearDepositOverride',
+                    onclick: clearDepositOverride,
+                    labelResx: 'string_4603' }, axBubbleAttr: 'depositOverrideView_clearDepositOverrideButton'"></button><!--Clear deposit override-->
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

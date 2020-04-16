@@ -1,0 +1,23 @@
+﻿/*This file is loaded in runtime and placeholders are replaced with specific values.
+    %%LOGIN_BACKGROUND_IMAGE%% - replaced by login background image setting;
+    %%LOGIN_BACKGROUND_IMAGE_PORTRAIT%% - replaced by login background image for portrait mode setting;
+    %%BACKGROUND_IMAGE%% - replaced by background image setting.
+
+Loading BackgroundImage.css and css rules updating happens in CSSHelpers.applyBackgroundImage() method. Then style tag is added to document head.
+*/
+
+.loginBackgroundImage {
+    background-image: url(data:image/gif;base64,%%LOGIN_BACKGROUND_IMAGE%%);
+    background-size: cover; 
+    background-attachment: fixed
+}
+
+.loginBackgroundImagePortrait {
+    background-image: url(data:image/gif;base64,%%LOGIN_BACKGROUND_IMAGE_PORTRAIT%%);
+    background-size: cover; 
+    background-attachment: fixed
+}
+
+.bodyBackgroundImage {
+    background-image: url(data:image/gif;base64,%%BACKGROUND_IMAGE%%);
+}

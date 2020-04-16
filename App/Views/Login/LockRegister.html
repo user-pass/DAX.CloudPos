@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>LockRegisterView</title>
+    <link href="LockRegister.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="fragment" data-bind="css: { loginBackgroundImage: !_isPortraitOrientation(), loginBackgroundImagePortrait: _isPortraitOrientation() }">
+
+        <div data-bind="loader: { visible: viewModel.isBusy }"></div>
+
+        <!--Lock Register panel for displaying operator id and accepting password-->
+        <div id="lockRegisterSection" class="section main full-screen center margin0" data-bind="resx: { ariaLabel: 'string_4454' }, axBubbleAttr: 'lockRegister_lockRegisterSection'">
+            <!-- Main content -->
+            <div class="width500 pad40 primaryBackgroundColor highContrastBorderThin">
+                <div>
+                    <h1 class="wrapTextWithoutHyphen" data-bind="resx: { textContent: 'string_6700' }">Register locked</h1>
+                </div>
+
+                <div class="padTop40">
+                    <label data-bind="resx: { textContent: 'string_6701' }">Store</label>
+
+                    <div class="h4" data-bind="text: store">Store</div>
+                </div>
+
+                <div class="padTop20">
+                    <label data-bind="resx: { textContent: 'string_6703' }">Operator Id</label>
+
+                    <div class="h4" data-bind="text: viewModel.operatorId">Operator Id</div>
+                </div>
+
+                <div class="padTop20">
+                    <label data-bind="resx: { textContent: 'string_6704' }" for="passwordBox">Password</label>
+
+                    <input id="passwordBox" type="password" required="required" role="textbox"
+                           data-bind="
+                                    value: viewModel.password,
+                                    valueUpdate: 'afterkeydown',
+                                    enterKeyPress: unlockRegisterButtonClick,
+                                    validator: {
+                                        validatorField: 'Password',
+                                        validatorType: 'ConnectionRequestValidator'
+                                    },
+                                    axBubbleAttr: 'lockRegister_lockRegisterView_passwordBox'" />
+                </div>
+
+                <div class="padTop40 row alignRight">
+                    <div>
+                        <button class="primaryButton" data-bind="resx: { textContent: 'string_6705' }, click: unlockRegisterButtonClick, disable: disableUnlockButton, axBubbleAttr: 'lockRegister_unlockButton'">
+                            Unlock register
+                        </button>
+                    </div>
+                    <div class="padLeft12">
+                        <button class="secondaryButton" data-bind="resx: { textContent: 'string_6707' }, click: switchUser, axBubbleAttr: 'lockRegister_switchUserButton'">
+                            Switch user
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

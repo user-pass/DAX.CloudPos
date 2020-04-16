@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AddressAddEditView</title>
+    <link href="AddressAddEditView.css" rel="stylesheet" />
+</head>
+<body>
+    <form autocomplete="off">
+        <div class="fragment addressAddEditView">
+            <!-- Indeterminate wait -->
+            <div data-bind="loader: { visible: addressAddEditViewModel.isBusy }"></div>
+
+            <!-- Page header -->
+            <div data-bind="headerSplitView: { title: viewTitle }">
+                <div class="section main scrollY marginTop12 pad0 margin0" data-bind="resx: { ariaLabel: 'string_4454' }">
+                    <!-- Main content -->
+                    <div class="col grow-landscape marginLeft12 marginRight12">
+                        <!-- Left column -->
+                        <div class="grow stretch minWidth240 maxWidth320">
+                            <!-- Address Type -->
+                            <div class="height52 marginBottom20">
+                                <label for="addressTypeTab" data-bind="resx: { textContent: 'string_4800' }">Address Type</label>
+                                <!-- ko if: !addressAddEditViewModel.showMultipleAddressTypes() -->
+                                <select id="addressTypeTab"
+                                        data-bind="options: addressAddEditViewModel.addressPurposes,
+                                            optionsText: 'Description',
+                                            optionsValue: 'RecordId',
+                                            value: addressAddEditViewModel.addressProxy.LogisticsLocationRoleRecordId,
+                                            optionsCaption: Commerce.ViewModelAdapter.getResourceString('string_4801'),
+                                            axBubbleAttr: 'addressAddEditView_addressTypeTab',
+                                            attr: { 'title': Commerce.ViewModelAdapter.getResourceString('string_4801') }"></select>
+                                <!-- /ko -->
+                                <!-- ko if: addressAddEditViewModel.showMultipleAddressTypes() -->
+                                <select id="multipleAddressTypeTab"
+                                        data-bind="options: addressAddEditViewModel.multiAddressPurposes,
+                                            optionsText: 'Description',
+                                            optionsValue: 'RecordId',
+                                            axBubbleAttr: 'addressAddEditView_addressTypeTab',
+                                            attr: { 'title': Commerce.ViewModelAdapter.getResourceString('string_4801') },
+                                            resx: { textContent: 'string_4800' },
+                                            disable: true"></select>
+                                <!-- /ko -->
+                            </div>
+
+                            <!-- Primary address selection toggle -->
+                            <div class="height52 marginBottom32">
+                                <label for="isPrimaryAddressToggle" data-bind="resx: { textContent: 'string_4809' }">Primary Address</label>
+                                <div id="isPrimaryAddressToggle"
+                                     data-bind="toggleSwitch: {
+                                         labelOn: 'string_1357',
+                                         labelOff:'string_1358',
+                                         checked: isPrimary,
+                                         onChange: setAddressProxyIsPrimary
+                                     }">
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="marginBottom20 shrink">
+                                <h2 data-bind="resx: { textContent: 'string_4802' }">Contact Information</h2>
+                            </div>
+
+                            <!-- Address name -->
+                            <!-- not to be confused with the Customer's name: this is the Address name -->
+                            <div class="height52 marginBottom20">
+                                <label for="nameTab" data-bind="resx: { textContent: 'string_4803' }">Name</label>
+                                <input type="text" id="nameTab"
+                                       data-bind="value: addressAddEditViewModel.addressProxy.Name, validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'Name',
+                                        validatorType: 'CustomerValidator'}" />
+                            </div>
+
+                            <!-- Address phone -->
+                            <!-- not to be confused with Phone from Customer model -->
+                            <div class="height52 marginBottom20">
+                                <label for="phoneTab" data-bind="resx: { textContent: 'string_4805' }">Phone</label>
+                                <input type="tel" id="phoneTab"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'Phone',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'Phone'}" />
+                            </div>
+
+                            <!-- Address email -->
+                            <!-- not to be confused with ReceiptEmail from Customer model -->
+                            <div class="height52 marginBottom32">
+                                <label for="emailTab" data-bind="resx: { textContent: 'string_4845' }">Contact email address</label>
+                                <input type="email" id="emailTab"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'Email',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'Email'}" />
+                            </div>
+
+                            <div class="marginTop12 marginBottom20 shrink">
+                                <h2 data-bind="resx: { textContent: 'string_4806' }">Tax</h2>
+                            </div>
+
+                            <!-- Tax group -->
+                            <div class="height52 marginBottom32">
+                                <label for="taxGroupTab" data-bind="resx: { textContent: 'string_4807' }">Sales Tax Group</label>
+                                <select id="taxGroupTab"
+                                        data-bind="options: Commerce.ViewControllers.AddressAddEditViewController.salesTaxGroups,
+                                        optionsText: 'TaxGroupName',
+                                        optionsValue: 'TaxGroup',
+                                        attr: { title: Commerce.ViewModelAdapter.getResourceString('string_4808') },
+                                        value: addressAddEditViewModel.addressProxy.TaxGroup,
+                                        optionsCaption: Commerce.ViewModelAdapter.getResourceString('string_4808')"></select>
+                            </div>
+
+                            <!-- Middle column -->
+                            <div class="marginTop12 marginBottom20 shrink">
+                                <h2 data-bind="resx: { textContent: 'string_4810' }">Address Information</h2>
+                            </div>
+
+                            <!-- Country -->
+                            <div class="height52 marginBottom20">
+                                <label for="countryTabRead" data-bind="resx: { textContent: 'string_1314' }">Country</label>
+                                <select id="countryTabRead"
+                                        data-bind="options: addressAddEditViewModel.countries,
+                                        optionsText: 'ShortName',
+                                        optionsValue: 'CountryRegionId',
+                                        attr: { title: Commerce.ViewModelAdapter.getResourceString('string_1315') },
+                                        value: addressAddEditViewModel.addressProxy.ThreeLetterISORegionName,
+                                        optionsCaption: Commerce.ViewModelAdapter.getResourceString('string_1315')"></select>
+                            </div>
+
+                            <!-- Street name -->
+                            <div class="height120 marginBottom20" data-bind="visible: showStreetName">
+                                <label for="streetNameTabRead" data-bind="resx: { textContent: 'string_4811' }">Street Name</label>
+                                <div class="height100">
+                                    <textarea id="streetNameTabRead" rows="5"
+                                              data-bind="validator: {
+                                            data: addressAddEditViewModel.addressProxy,
+                                            field: 'Street',
+                                            validatorType: 'AddressValidator',
+                                            validatorField: 'Street'}"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Street number -->
+                            <div class="height52 marginBottom20" data-bind="visible: showStreetNumber">
+                                <label for="streetNumberTabRead" data-bind="resx: { textContent: 'string_4838' }">Street Number</label>
+                                <input type="text" id="streetNumberTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'StreetNumber',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'StreetNumber'}" />
+                            </div>
+
+                            <!-- Building complement -->
+                            <div class="height52 marginBottom20" data-bind="visible: showBuildingComplement">
+                                <label for="bcTabRead" data-bind="resx: { textContent: 'string_4839' }">Building Complement</label>
+                                <input type="text" id="bcTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'BuildingCompliment',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'BuildingCompliment'}" />
+                            </div>
+
+                            <!-- City -->
+                            <div class="height52 marginBottom20" data-bind="visible: showCity">
+                                <label for="cityTabRead" data-bind="resx: { textContent: 'string_1317' }">City</label>
+                                <input type="text" id="cityTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'City',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'City'}" />
+                            </div>
+
+                            <!-- County -->
+                            <div class="height52 marginBottom20" data-bind="visible: showCounty">
+                                <label for="countyTabRead" data-bind="resx: { textContent: 'string_4840' }">County</label>
+                                <input type="text" id="countyTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'County',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'County'}" />
+                            </div>
+
+                            <!-- District -->
+                            <div class="height52 marginBottom20" data-bind="visible: showDistrict">
+                                <label for="districtTabRead" data-bind="resx: { textContent: 'string_4841' }">District</label>
+                                <input type="text" id="districtTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'DistrictName',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'DistrictName'}" />
+                            </div>
+
+                            <!-- State -->
+                            <div class="height52 marginBottom20" data-bind="visible: showState">
+                                <label for="stateTabRead" data-bind="resx: { textContent: 'string_1318' }">State</label>
+                                <select id="stateTabRead"
+                                        data-bind="options: addressAddEditViewModel.states,
+                                        enable: enableState,
+                                        optionsText: 'StateName',
+                                        optionsValue: 'StateId',
+                                        attr: { title: Commerce.ViewModelAdapter.getResourceString('string_1342') },
+                                        value: addressAddEditViewModel.addressProxy.State,
+                                        optionsCaption: Commerce.ViewModelAdapter.getResourceString('string_1342')"></select>
+                            </div>
+
+                            <!-- Zip -->
+                            <div class="height52 marginBottom20" data-bind="visible: showZip">
+                                <label for="zipTabRead" data-bind="resx: { textContent: 'string_1319' }">Zip</label>
+                                <input type="text" id="zipTabRead"
+                                       data-bind="validator: {
+                                        data: addressAddEditViewModel.addressProxy,
+                                        field: 'ZipCode',
+                                        validatorType: 'AddressValidator',
+                                        validatorField: 'ZipCode'},
+                                        event: { blur: addressAddEditViewModel.zipCodeChangedAsync.bind(addressAddEditViewModel) }" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom app bar -->
+                <div id="commandAppBar" data-bind="appBar: { }">
+                    <button data-bind="appBarCommand: {
+                        extraClass: 'iconSave',
+                        id:'cmdSaveCustomerAddress',
+                        enable: addressAddEditViewModel.canSave,
+                        labelResx: 'string_1327'}, invokeValidate: saveClicked"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

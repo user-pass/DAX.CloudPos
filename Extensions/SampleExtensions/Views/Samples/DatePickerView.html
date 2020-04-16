@@ -1,0 +1,87 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>DatePickerView</title>
+</head>
+<body>
+    <div class="DatePickerView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msSdkDatePicker</h3>
+                    <div class="pad8">
+                        <div data-bind="msPosDatePicker: datePicker">
+                        </div>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    export interface IDatePickerState {
+        datePattern?: string;
+        initialValue?: Date;
+        disabled?: boolean | Computed<boolean>;
+        onChange: DateChangedHandler;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    import * as NewView from "PosApi/Create/Views";
+    import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+
+    import * as DatePicker from "PosUISdk/Controls/DatePicker";
+
+    /**
+    * The controller for SamplesView.
+    */
+    export default class AppBarView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+        public readonly datePicker: DatePicker.DatePicker;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                title: "DatePicker sample"
+            });
+
+            this.datePicker = new DatePicker.DatePicker({
+                datePattern: "{day.integer(2)} {dayofweek.full}",
+                initialValue: new Date(),
+                onChange: this.dateChangedHandler.bind(this)
+            });
+        }
+
+        private dateChangedHandler(newDate: Date): void {
+            this.context.logger.logInformational(JSON.stringify(newDate));
+        }
+
+        /**
+        * Bind the html element with view controller.
+        *
+        * @param {HTMLElement} element DOM element.
+        */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <div data-bind="msPosDatePicker: datePicker">
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

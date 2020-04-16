@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sales Invoices View</title>
+    <link href="SalesInvoicesView.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="fragment salesInvoicesView">
+
+        <!-- Indeterminate wait -->
+        <div tabindex="-1" data-bind="loader: { visible: _indeterminateWaitVisible }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: {titleResx : 'string_5001'}">
+            <div data-bind="pivot: { headerItemsAxBubbleAttr: 'salesInvoicesView_pivotItemsHeader' }, resx: { ariaLabel: 'string_4454' }">
+                <div data-bind="pivotItem: { headerResx: 'string_5000' }">
+                    <div id="InvoiceList" data-bind="dataList: {
+                        itemDataSource: _salesInvoices,
+                        onItemDataSourceUpdated: onItemDataSourceUpdated,
+                        selectionChanged: onSelectionChanged,
+                        selectionModes: Commerce.Controls.DataList.SelectionMode.SingleSelect,
+                        ariaLabelResx: 'string_3875', /* List of orders */
+                        columns: [
+                            { titleResx: 'string_5002', ratio: 45, collapseOrder: 4, minWidth: 150, field: 'Id' },
+                            { titleResx: 'string_5003', ratio: 20, collapseOrder: 3, minWidth: 100, field: 'InvoiceDate', converter: 'Commerce.Core.Converter.DateWithoutTime' },
+                            { titleResx: 'string_5005', ratio: 20, collapseOrder: 2, minWidth: 100, field: 'Amount', converter: 'Commerce.Core.Converter.PriceFormatter', isRightAligned: true },
+                            { titleResx: 'string_5004', ratio: 15, collapseOrder: 1, minWidth: 40, field: 'CurrencyCode' }
+                        ]
+                    },
+                    axBubbleAttr: 'salesInvoicesView_salesInvoices'"></div>
+                </div>
+            </div>
+
+            <div id="commandAppBar" data-bind="appBar: {}, axBubbleAttr: 'salesInvoicesView_commandAppBar'">
+                <button data-bind="appBarCommand: {
+                    id:'returnButton',
+                    extraClass: 'iconProductReturn',
+                    onclick: returnSalesInvoice,
+                    disabled: returnSalesInvoiceDisabled,
+                    labelResx: 'string_5013' }, axBubbleAttr: 'salesInvoicesView_returnButton'"></button><!--Return-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PickingAndReceivingDetailsView</title>
+    <link href="PickingAndReceivingDetailsView.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="pickingAndReceivingDetailsView fragment" data-bind="with: viewModel">
+
+        <!-- Indeterminate wait -->
+        <div data-bind="loader: { visible: isBusy }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { titleResx: title }">
+            <div class="section main row marginBottom12 marginLeft20 marginRight20">
+                <div class="row grow" data-bind="visible: !isReceiptSelected()">
+                    <!-- Lines -->
+                    <div class="col grow" data-bind="sectionWrapper: {headerResx: journalId }">
+                        <div id="listviewContainer" data-bind="dataList: {
+                                    itemDataSource: lineDetails,
+                                    selectionModes: Commerce.Controls.DataList.SelectionMode.SingleSelect,
+                                    selectionChanged: productSelectionChanged,
+                                    ariaLabelResx: 'string_3874',
+                                    columns: dataListColumns
+                                    },
+                                    axBubbleAttr: 'pickingAndReceivingDetailsView_listView'">
+                        </div>
+                    </div>
+                </div>
+                <div class="receiptPreview grow" data-bind="visible: isReceiptSelected">
+                    <pre data-bind="html: receiptText"></pre>
+                </div>
+            </div>
+
+            <div id="pickingReceivingAppBar" data-bind="appBar: { extensionCommands: extensionCommandViewModels }, axBubbleAttr: 'pickingAndReceivingDetailsView_commandAppBar'">
+
+                <!-- opens dialog to show the transfer order header -->
+                <button data-bind="appBarCommand: {
+                    id:'showOrderHeader',
+                    extraClass: 'iconPageHeader',
+                    onclick: showOrderHeaderClickHandler,
+                    enabled: showHeaderButton,
+                    visible: !isReceiptSelected(),
+                    labelResx: 'string_3423'}, axBubbleAttr: 'pickingAndReceivingDetailsView_showOrderHeaderButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    id:'packingSlip',
+                    extraClass: 'iconProductList',
+                    onclick: packingSlipHandlerAsync,
+                    enabled: showHeaderButton,
+                    visible: !isReceiptSelected(),
+                    labelResx: 'string_3430'}, axBubbleAttr: 'pickingAndReceivingDetailsView_packingSlipButton'"></button>
+
+                <!-- opens a dialog to add/view comments of the current transfer order.-->
+                <button data-bind="appBarCommand: {
+                    id: 'addTransferOrderComment',
+                    extraClass: 'iconNote',
+                    onclick: addOrViewTransferOrderCommentAsync,
+                    enabled:  showHeaderButton,
+                    visible: !isReceiptSelected(),
+                    labelResx: 'string_3426'}, axBubbleAttr: 'pickingAndReceivingDetailsView_showTransferOrderCommentButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconImportAll',
+                    id:'receiveNowOrShipNow',
+                    labelResx: receiveAllOrShipAllLabelResx,
+                    enabled: isEnterProductMode,
+                    visible: !isReceiptSelected(),
+                    onclick: receiveOrShipAllLines}, axBubbleAttr: 'pickingAndReceivingDetailsView_shipAllReceiveAllButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconMapPin',
+                    id:'changeLocation',
+                    labelResx: 'string_3876',
+                    onclick: startChangingLocationAsync,
+                    visible: isAdvancedWarehousingEnabled && !isReceiptSelected() }, axBubbleAttr: 'pickingAndReceivingDetailsView_locationButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconSearch',
+                    id:'searchProducts',
+                    labelResx: 'string_3821',
+                    onclick: searchForProductAsync,
+                    visible: !isReceiptSelected(),
+                    enabled: isEnterProductMode }, axBubbleAttr: 'pickingAndReceivingDetailsView_searchProductsButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconSave',
+                    id:'saveJournal',
+                    labelResx: 'string_3824',
+                    enabled: isEnterProductMode,
+                    visible: !isReceiptSelected(),
+                    onclick: saveJournalAsync }, axBubbleAttr: 'pickingAndReceivingDetailsView_saveButton'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconAccept',
+                    id:'commitJournal',
+                    labelResx: 'string_3823',
+                    enabled: isEnterProductMode,
+                    visible: !isReceiptSelected(),
+                    onclick: commitJournalAsync }, axBubbleAttr: 'pickingAndReceivingDetailsView_commitButton'"></button>
+
+                <!-- Buttons visible in preview mode -->
+                <button data-bind="appBarCommand: {
+                    id:'printReceiptsCommand',
+                    extraClass: 'iconPrint',
+                    onclick: printReceiptAsync,
+                    labelResx: 'string_1808',
+                    enabled: isSelectedReceiptPrintable,
+                    visible: isReceiptSelected },
+                    axBubbleAttr: 'pickingAndReceivingDetailsView_printReceiptsCommand'"></button><!--Print-->
+                <!-- Buttons visible in preview mode -->
+                <button data-bind="appBarCommand: {
+                    id:'clearReceiptSelection',
+                    extraClass: 'iconCancel',
+                    onclick: clearReceiptSelectionHandlerAsync,
+                    labelResx: 'string_80',
+                    visible: isReceiptSelected },
+                    axBubbleAttr: 'pickingAndReceivingDetailsView_clearReceiptSelection'"></button><!--Close Print Preview-->
+                <!-- opens dialog to add a new product -->
+                <button data-bind="appBarCommand: {
+                    id: 'addProduct',
+                    extraClass: 'iconAdd',
+                    enabled: isProductAdditionAllowed,
+                    visible: !isUpdateTransferIn(),
+                    onclick: addProductAsync,
+                    labelResx: 'string_923'}, axBubbleAttr: 'pickingAndReceivingDetailsView_addProductButton'"></button>
+
+                <!-- opens dialog to edit quantity of the order line-->
+                <button data-bind="appBarCommand: {
+                    id:'editQuantity',
+                    extraClass: 'iconQuantity',
+                    enabled: isEnterReceivedNowMode,
+                    onclick: editQuantityAsync,
+                    labelResx: 'string_3374'}, axBubbleAttr: 'pickingAndReceivingDetailsView_addQuantityButton'"></button>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

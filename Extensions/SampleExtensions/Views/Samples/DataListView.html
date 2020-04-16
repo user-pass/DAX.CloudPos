@@ -1,0 +1,143 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>DataListView</title>
+</head>
+<body>
+    <div class="DataListView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow scrollY">
+                <div class="pad20 col width680">
+                    <h3>msPosDataList</h3>
+                    <div class="pad8 height220">
+                        <div id="dataListSample" data-bind="msPosDataList: dataList">
+                        </div>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    enum ValueFormat {
+        Price = 0,
+        ShortDateAndTime = 1,
+        Text = 2,
+        TransactionType = 3,
+        IsRetailStoreFromOrgUnitLocation = 4,
+        QuantityFromStoreInventory = 5,
+        PhysicalReservedFromStoreInventory = 6,
+        OrderedSumFromStoreInventory = 7,
+        UnitOfMeasureFromStoreInventory = 8,
+    }
+
+    export interface IDataListColumn {
+        title?: string;
+        computeValue?: (row: any) => any;
+        field?: string;
+        posValueFormat?: ValueFormat;
+        ratio: number;
+        collapseOrder: number;
+        minWidth: number;
+        isRightAligned?: boolean;
+    }
+
+    export interface IDataListState {
+        itemDataSource?: any;
+        columns?: IDataListColumn[];
+        selectionModes?: SelectionMode;
+        itemInvoked?: (item: any) => void;
+        selectionChanged?: (items: any[]) => void;
+        emptyDataListTemplate?: string;
+        autoSelectFirstItem?: boolean;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    import * as NewView from "PosApi/Create/Views";
+    import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+    import * as DataList from "PosUISdk/Controls/DataList";
+
+    /**
+    * The controller for DataListView.
+    */
+    export default class DataListView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+        public readonly dataList: DataList.DataList;
+        public readonly dataListDataSource: ObservableArray<any>;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                title: "DataList sample"
+            });
+
+            this.dataListDataSource = ko.observableArray(null);
+
+            this.dataList = new DataList.DataList({
+                columns: [
+                    { titleResx: "string_4803", ratio: 30, collapseOrder: 3, minWidth: 100, field: "requestedWorkerName" },
+                    { titleResx: "string_3711", ratio: 30, collapseOrder: 1, minWidth: 100, field: "requestType" },
+                    { titleResx: "string_6616", ratio: 40, collapseOrder: 2, minWidth: 100, field: "requestStatus" }
+                ],
+                itemDataSource: this.dataListDataSource,
+                selectionModes: DataList.SelectionMode.MultiSelect,
+                selectionChanged: this.dataListSelectionChanged.bind(this),
+            });
+
+            this.dataListDataSource([{
+                    requestDateTime: new Date(),
+                    requestedWorkerName: "Allison Berker",
+                    requestType: "Leave request",
+                    requestStatus: "Approved"
+                },
+                {
+                    requestDateTime: new Date(),
+                    requestedWorkerName: "Bert Miner",
+                    requestType: "Shift Swap",
+                    requestStatus: "Pending"
+                },
+                {
+                    requestDateTime: new Date(),
+                    requestedWorkerName: "Greg Marchievsky",
+                    requestType: "Shift Offer",
+                    requestStatus: "Rejected"
+                }]);
+        }
+
+        private dataListSelectionChanged(): void {
+            this.context.logger.logInformational("dataListSelectionChanged");
+        }
+
+        /**
+        * Bind the html element with view controller.
+        *
+        * @param {HTMLElement} element DOM element.
+        */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+</textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <!-- Height must be greated that row height in order for data list to work. 
+         So make sure you have sufficient space. -->
+    <div class="pad8 height220">
+        <div id="dataListSample" data-bind="msPosDataList: dataList">
+        </div>
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

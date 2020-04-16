@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NotificationCenterDialog</title>
+
+    <link href="NotificationCenterDialog.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="notificationCenterDialog" class="notificationDialog" data-bind="customControlInternal: 'NotificationCenterDialog'">
+        <div data-bind="dialog:
+            {
+                title: Commerce.ViewModelAdapter.getResourceString('string_13200'),
+                visible: visible,
+                buttonClick: notificationDialogCloseButtonClick,
+                dialogCloseButtonClick: notificationDialogCloseButtonClick,
+                closeOnEscButton: true,
+                buttons: [
+                    { label: Commerce.ViewModelAdapter.getResourceString('string_80'), operationId: Commerce.Controls.Dialog.OperationIds.CLOSE_BUTTON_CLICK, cssClass: 'cancelButton', isPrimary: false }
+                ]
+            },
+            axBubbleAttr: 'notificationCenterDialog_notificationCenterDialog'">
+
+            <!-- dialog content -->
+            <div class="grow col">
+                <div class="stretch scrollY padTop12">
+                    <!-- ko if: viewModel.isNotificationsSuccessful -->
+                    <div data-bind="template: { name: 'operationBlockTemplate', foreach: viewModel.notifications }"></div>
+                    <!-- /ko -->
+                    <!-- ko ifnot: viewModel.hasNotifications -->
+                    <div class="col center padTop20">
+                        <div class="width64 center iconCompleted icon-40x40 height64 secondaryFontColor" data-bind="resx: {ariaLabel: 'string_13203'}"></div>
+                        <div class="h4 grow padTop20" data-bind="resx: {textContent: 'string_13203'}">There are no notifications at this time.</div>
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko ifnot: viewModel.isNotificationsSuccessful -->
+                    <div class="col center padTop20 wrapText">
+                        <div class="width64 center iconError icon-40x40 height64 secondaryFontColor" data-bind="resx: {ariaLabel: 'string_13205'}"></div>
+                        <div class="h4 grow col padTop20" data-bind="resx: {textContent: 'string_13205'}">An error has occurred while retrieving notifications.</div>
+                    </div>
+                    <!-- /ko -->
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Operation template -->
+    <script id="operationBlockTemplate" type="text/html">
+        <div class="marginBottom24" >
+            <div class="row height32">
+                <div class="grow col centerY">
+                    <div class="h5" data-bind="text: ActionName">Action Name</div>
+                </div>
+                <!-- Refresh button-->
+                <button class="iconRefresh accentColor center height32 width32" 
+                        data-bind="click: $root.viewModel.refreshNotification.bind($root.viewModel, Action),
+                                   attr: { 'aria-label': Commerce.ViewModelAdapter.getResourceString('string_13208') }"></button>
+            </div>
+            <!-- Last pulled date time-->
+            <div class="row height24 centerY">
+                <div class="h6 secondaryFontColor" 
+                    data-bind="text: Commerce.StringExtensions.format(Commerce.ViewModelAdapter.getResourceString('string_13201'), Commerce.Formatters.ShortDateAndTimeFormatter(lastPullDateTime))">Last pulled date time</div>
+            </div>
+            <div data-bind="template: { name: 'notificationBlockTemplate', foreach: NotificationDetails }"></div>
+        </div>
+    </script>
+    <!-- Notification detail template -->
+    <script id="notificationBlockTemplate" type="text/html">
+        <!-- ko ifnot: IsLiveContentOnly -->
+        <div tabindex="0" 
+             role="button"
+             class="clickableDiv grow marginBottom12"
+             data-bind="click: $root.navigate.bind($root, $parent.Action, ActionProperty),
+                        enterKeyPress: $root.navigate.bind($root, $parent.Action, ActionProperty),
+                        attr: { 'aria-label': Commerce.ViewModelAdapter.getResourceString(DisplayText) }">
+            <!-- Notification subtitle -->
+            <div class="row height32 accentBackground notificationHeader">
+                <div class="grow col">
+                    <div class="h4 padLeft08 centerY" data-bind="text: Commerce.ViewModelAdapter.getResourceString(DisplayText)">Name</div>
+                </div>
+                <!-- new notification indicator -->
+                <div class="center height32 width32" data-bind="css: { iconStarburstSolid: IsNew }, attr: { 'aria-label': Commerce.ViewModelAdapter.getResourceString('string_13207') }"></div>
+            </div>
+            <!-- Counter -->
+            <div class="grow col borders notificationContent">
+                <div class="height64 center padTop08">
+                    <div class="h1 padBottom08" data-bind="text: ItemCount, visible: IsSuccess, css: { zeroFontColor: ItemCount === 0 }"></div>
+                    <div class="width64 center iconError icon-40x40 height64"
+                         data-bind="visible: !IsSuccess, attr: { 'aria-label': Commerce.ViewModelAdapter.getResourceString('string_13206') }"></div>
+                </div>
+                <div class="height24 center padBottom08" data-bind="visible: !IsSuccess">
+                    <div class="h6" data-bind="resx: {textContent: 'string_13206'}">Something went wrong.</div>
+                </div>
+            </div>
+        </div>
+        <!-- /ko -->
+    </script>
+</body>
+</html>

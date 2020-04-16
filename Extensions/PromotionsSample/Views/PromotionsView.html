@@ -1,0 +1,37 @@
+﻿<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PromotionsView</title>
+</head>
+<body>
+    <div class="promotionsView">
+        <div data-bind="msPosLoader: loader"></div>
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <!-- Promotions pivot -->
+            <div id="PromotionsPivot" data-bind="msPosPivot: promotionsPivot">
+                <div data-bind="msPosPivotItem: availableDiscountsPivotItem">
+                    <div id="availableDiscountsListView" data-bind="msPosDataList: availableDiscountsDataList">
+                    </div>
+                </div>
+                <div data-bind="msPosPivotItem: upcomingDiscountsPivotItem">
+                    <div id="upcomingDiscountsListView" data-bind="msPosDataList: upcomingDiscountsDataList">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu control shown from the app bar -->
+            <div data-bind="msPosMenu: constantPromotionDiscountsMenu">
+            </div>
+
+            <!-- App bar -->
+            <div id="promotionsViewAppBar" data-bind="msPosAppBar: appBar">
+                <button data-bind="msPosAppBarCommand: showConstantPromotionsDiscountsCommand"></button>
+                <button data-bind="msPosAppBarCommand: addToSaleCommand"></button>
+                <button data-bind="msPosAppBarCommand: sellNowCommand"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

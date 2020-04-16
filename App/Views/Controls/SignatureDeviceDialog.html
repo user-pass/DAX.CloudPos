@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SignatureCaptureDialog</title>
+</head>
+<body>
+    <div data-bind="customControlInternal: 'SignatureDeviceDialog'">
+        <div data-bind="dialog:
+            {
+                title: Commerce.ViewModelAdapter.getResourceString('string_6900'), /* Signature */
+                visible: visible
+            },
+            axBubbleAttr: 'signatureDeviceDialog_signatureDeviceDialog'">
+            <div class="marginBottom8">
+                <div class="h3" data-bind="text: Commerce.ViewModelAdapter.getResourceString('string_6908')">Waiting for customer input...</div>
+            </div>
+            <div class="marginBottom8">
+                <div class="h4" data-bind="text: Commerce.ViewModelAdapter.getResourceString('string_6907')">Ask the customer to sign on the device.</div>
+            </div>
+            <div class="col marginBottom8" data-bind="visible: allowGetSignature">
+                <button id="btnGetSignature" 
+                        class="primaryButton" 
+                        data-bind="resx: {textContent: Commerce.ViewModelAdapter.getResourceString('string_6909')},
+                            click: function() { 
+                                $root.signatureDeviceDialogButtonClickHandler(Commerce.Controls.Dialog.OperationIds.OK_BUTTON_CLICK);
+                            }">
+                    Get signature
+                </button>
+            </div>
+            <div class="col marginBottom8">
+                <button id="btnSignOnScreen"
+                        class="primaryButton"
+                        data-bind="resx: {textContent: Commerce.ViewModelAdapter.getResourceString('string_6905')},
+                            click: function() { 
+                                $root.signatureDeviceDialogButtonClickHandler(Commerce.Controls.Dialog.OperationIds.CANCEL_BUTTON_CLICK);
+                            }">
+                    Sign on screen
+                </button>
+            </div>
+            <div class="col" data-bind="visible: allowSkip">
+                <button id="btnSkip"
+                        class="primaryButton"
+                        data-bind="resx: {textContent: Commerce.ViewModelAdapter.getResourceString('string_6903')},
+                            click: function() { 
+                                $root.signatureDeviceDialogButtonClickHandler(Commerce.Controls.Dialog.OperationIds.NO_BUTTON_CLICK);
+                            }">
+                    Skip
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

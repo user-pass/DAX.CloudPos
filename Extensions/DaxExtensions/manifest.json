@@ -1,0 +1,58 @@
+﻿{
+  "$schema": "../schemas/manifestSchema.json",
+  "name": "Dax_Extensions",
+  "publisher": "Microsoft",
+  "version": "7.2.0",
+  "minimumPosVersion": "7.2.0.0",
+  "components": {
+    "extend": {
+      "triggers": [
+        {
+          "triggerType": "PreProductSale",
+          "modulePath": "TriggerHandlers/PreProductSaleTrigger"
+        },
+        {
+          "triggerType": "PreLogOn",
+          "modulePath": "TriggerHandlers/PreLogonTrigger"
+        }
+      ],
+      "views": {
+        "CustomerDetailsView": {
+          "controlsConfig": {
+            "customControls": [
+              {
+                "controlName": "CustomerDetailsPanel",
+                "htmlPath": "ViewExtensions/CustomerDetailsPanel.html",
+                "modulePath": "ViewExtensions/CustomerDetailsPanel"
+              }
+            ]
+          }
+        }
+      }
+
+    },
+    "create": {
+      "operations": [
+        {
+          "operationId": "4096",
+          "operationRequestFactoryPath": "Operations/EmployeeDiscount/EmployeeDiscountOperationRequestFactory",
+          "operationRequestHandlerPath": "Operations/EmployeeDiscount/EmployeeDiscountOperationRequestHandler"
+        },
+        {
+          "operationId": "4098",
+          "operationRequestFactoryPath": "Operations/GreetingsView/GreetingsViewOperationRequestFactory",
+          "operationRequestHandlerPath": "Operations/GreetingsView/GreetingsViewOperationRequestHandler"
+        }
+      ],
+      "views": [
+        {
+          "phonePageName": "GreetingsDataListView",
+          "title": "Invitation Table View",
+          "pageName": "GreetingsDataListView",
+          "viewControllerPath": "Views/GreetingsDataListView",
+          "viewDirectory": "Views/"
+        }
+      ]
+    }
+  }
+}

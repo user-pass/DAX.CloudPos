@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ProductsView</title>
+    <link href="ProductsView.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="fragment">
+        <!-- Progress Ring -->
+        <div data-bind="loader: { visible: viewModel.isProductsModeBusy }"></div>
+        <div data-bind="loader: { visible: viewModel.isCategoryModeBusy }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { title: viewTitle }">
+            <div class="height100Percent row" data-bind="with:viewModel">
+                <div id="ProductsViewPivot" data-bind="pivot: {onselectionchanged: switchSelectionMode.bind($data), headerItemsAxBubbleAttr: 'productsViewPivot_pivotItemsHeader'}, resx: { ariaLabel: 'string_4454' }">
+                    <div id="ProductsViewPivotProduct" data-bind="pivotItem: { header : Commerce.ViewModelAdapter.getResourceString('string_28')}, axBubbleAttr: 'productsView_productsPivot'">
+                        <div class="col grow height100Percent">
+                            <div id="productsViewList" data-bind="dataList: {
+                                    defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                    selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOrMulti,
+                                    selectionChanged: setSelectedItems,
+                                    itemInvoked: showProductDetails,
+                                    emptyDataListMessageResx: 'string_913',
+                                    ariaLabelResx: 'string_925',
+                                    incrementalDataSource: {
+                                        dataManager: $data,
+                                        callerMethod: searchProducts,
+                                        pageSize: 60,
+                                        pageLoadCallBack: Commerce.ProductPropertiesHelper.getActivePricesAndUpdateProductSearchResults,
+                                        onLoading: isProductsModeBusy,
+                                        reloadCallBack: resetProductsHandler,
+                                        pageLoadCompleteCallBackFunction: $data.productsPageLoadCompleted.bind($data)
+                                    },
+                                    itemTemplates: [
+                                        { 
+                                            name: 'string_939', /* Show cards */
+                                            templateId: 'productSearchResultLargeCardTemplate',
+                                            cardType: Commerce.Controls.DataList.CardType.Static,
+                                            deviceType: Commerce.Controls.DataList.DeviceType.Tablet
+                                        },
+                                        {
+                                            name: 'string_939', /* Show cards */
+                                            templateId: 'productSearchResultSmallCardTemplatePhone',
+                                            cardType: Commerce.Controls.DataList.CardType.Stretchable,
+                                            deviceType: Commerce.Controls.DataList.DeviceType.Phone,
+                                        }
+                                    ],
+                                    columns: [
+                                        { titleResx: 'string_906', ratio: 20, collapseOrder: 3, minWidth: 120, field: 'ItemId' },
+                                        { titleResx: 'string_907', ratio: 50, collapseOrder: 2, minWidth: 200, field: 'Name' },
+                                        { titleResx: 'string_908', ratio: 30, collapseOrder: 1, minWidth: 100, field: 'Price', converter: 'Commerce.Core.Converter.PriceFormatter', isRightAligned: true },
+                                    ] 
+                                 },
+                                 axBubbleAttr: 'productsView_browseGrid'">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ProductsViewPivotCategories" data-bind="pivotItem: { header: Commerce.ViewModelAdapter.getResourceString('string_920')}, axBubbleAttr: 'productsView_customersPivot'">
+                        <div id="productCategoriesList" data-bind="dataList: {
+                                    itemDataSource: categories,
+                                    defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                    selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                    itemInvoked: showProductsForCategory,
+                                    emptyDataListMessageResx: 'string_914', /* There are no subcategories in this category */
+                                    ariaLabelResx: 'string_612',  /* List of categories */
+                                    itemTemplates: [
+                                        {
+                                            templateId: 'categoryCatalogTemplate',
+                                            cardType: Commerce.Controls.DataList.CardType.Static,
+                                            deviceType: Commerce.Controls.DataList.DeviceType.All
+                                        }
+                                    ],
+                                 },
+                                 axBubbleAttr: 'productsView_categoriesview'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom app bar -->
+
+            <div id="commandAppBar" data-bind="appBar: {}, visible: viewModel.isProductsModeActive, axBubbleAttr: 'productsView_commandAppBar'">
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconMultiSelect',
+                    id:'showMultiSelect',
+                    labelResx: 'string_6405'}, gridSelectionMode:{ id: '#productsViewList' },
+                    axBubbleAttr: 'productsView_showMultiSelect'"></button><!--Select-->
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconFilter',
+                    id:'applyFilter',
+                    onclick: showRefinerDialog,
+                    labelResx: 'string_935',
+                    enabled: viewModel.isCurrentStore },
+                    axBubbleAttr: 'productsView_applyFilter'"></button>
+
+                <button data-bind="appBarCommand: {
+                        extraClass: 'iconView',
+                        id:'showViewMenu',
+                        labelResx: 'string_924'
+                    }, 
+                    templateSwitcher: { listId: '#productsViewList' },
+                    axBubbleAttr: 'productsView_showViewMenu'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconTwoPage',
+                    id:'compare',
+                    onclick: viewModel.compareSelectedItems.bind(viewModel),
+                    labelResx: 'string_903',
+                    enabled: viewModel.canCompareSelectedItems },
+                    axBubbleAttr: 'productsView_compareButton'"></button><!-- Compare -->
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconAdd',
+                    id:'addtosale',
+                    onclick: viewModel.addSelectedItemsToCart.bind(viewModel),
+                    labelResx: 'string_904',
+                    enabled: viewModel.canAddSelectedItemsToSale },
+                    axBubbleAttr: 'productsView_addToSaleButton'"></button><!-- Add to sale-->
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconBuy',
+                    id:'addtosale',
+                    onclick: viewModel.quickSellSelectedItems.bind(viewModel),
+                    labelResx: 'string_922',
+                    enabled: viewModel.canAddSelectedItemsToSale },
+                    axBubbleAttr: 'productsView_sellNowButton'"></button><!-- sell now--></div>
+        </div>
+    </div>
+</body>
+</html>

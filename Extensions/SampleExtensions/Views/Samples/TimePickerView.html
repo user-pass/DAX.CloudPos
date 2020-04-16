@@ -1,0 +1,87 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TimePickerView</title>
+</head>
+<body>
+    <div class="TimePickerView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msPosTimePicker</h3>
+                    <div class="pad8">
+                        <div data-bind="msPosTimePicker: timePicker">
+                        </div>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    export interface ITimePickerState {
+        hourPattern?: string;
+        minutePattern?: string;
+        minuteIncrement?: number;
+        initialValue?: Date;
+        disabled?: boolean | Computed<boolean>;
+        onChange: TimeChangedHandler;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    import * as NewView from "PosApi/Create/Views";
+    import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+
+    import * as TimePicker from "PosUISdk/Controls/TimePicker";
+
+    /**
+     * The controller for TimePickerView.
+     */
+    export default class TimePickerView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+        public readonly timePicker: TimePicker.TimePicker;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                title: "TimePicker sample"
+            });
+
+            this.timePicker = new TimePicker.TimePicker({
+                onChange: this.timePickerChanged.bind(this)
+            });
+        }
+
+        private timePickerChanged(newDate: Date): void {
+            this.context.logger.logInformational(newDate.getHours() + ":" + newDate.getMinutes());
+        }
+
+        /**
+         * Bind the html element with view controller.
+         *
+         * @param {HTMLElement} element DOM element.
+         */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <div data-bind="msPosTimePicker: timePicker">
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

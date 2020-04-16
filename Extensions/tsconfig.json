@@ -1,0 +1,45 @@
+{
+  "exclude": [
+    "AuditEventSignatureSample",
+    "B2BSample",
+    "CreateCashManagementTransactionSample",
+    "CreateTenderCountingTransactionSample",
+    "CustomerSearchWithAttributesSample",
+    "DualDisplaySample",
+    "FiscalRegisterSample",
+    "PaymentSample",
+    "PromotionsSample",
+    "SalesOrdersSample",
+    "SalesTransactionSignatureNorway",
+    "SalesTransactionSignatureSample",
+    "SalesTransBuildNumberSample",
+    "SampleExtensions",
+    "SampleExtensions2",
+    "SequentialSignature",
+    "StoreHoursSample",
+    "SuspendTransactionReceiptSample",
+    "WarrantyAndReturnSample"
+  ],
+  "compilerOptions": {
+    "module": "system",
+    "alwaysStrict": true,
+    "declaration": true,
+    "lib": [ "dom", "es5", "scripthost", "es2015.promise" ],
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "stripInternal": true,
+    "target": "es5",
+    "typeRoots": [ "./typings" ],
+    // There is a strange behavior for TypeScript 2.2.2 in map and source roots generated in compiled JS and map files. The following may change in future TypeScript versions.
+    // In case there is only one top level extensions folder with .ts files included, the following two root directories need to be changed to include the extensions folder.
+    // For example, change both roots to "./SampleExtensions" if "SampleExtensions" folder is the only top level folder that has .ts files included in the project.
+    // That is, either "SampleExtensions" folder is the only top level folder, or all other top level folders have .js files only, no .ts files.
+    "mapRoot": "./",
+    "sourceRoot": "./"
+  }
+}

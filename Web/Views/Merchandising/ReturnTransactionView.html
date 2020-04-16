@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ReturnTransaction</title>
+</head>
+<body>
+    <!-- Main page -->
+    <div class="fragment returnTransactionView">
+
+        <!-- Indeterminate wait -->
+        <div data-bind="loader: { visible: viewModel.isBusy }"></div>
+
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { titleResx: viewTitle }">
+
+            <div data-bind="pivot: {}, resx: { ariaLabel: 'string_4454' }">
+                <div data-bind="pivotItem: { headerResx: 'string_1236' }">
+                    <!-- Main content -->
+                    <div class="standardGrid salesOrderLinesGrid height100Percent">
+                        <div id="salesOrderLinesView"
+                            data-bind="listView: {
+                                itemDataSource: viewModel.salesLinesForDisplay,
+                                selectionMode: 'multi',
+                                tapBehavior: 'toggleSelect',
+                                selectionchanged: { eventHandlerCallBack: salesOrderLineListSelectionChangedEventHandler },
+                                displayMode: Commerce.ListView.DisplayMode.AlwaysExpandedWithCheckbox,
+                                rowExpandedTemplateId: 'SalesLineColspan',
+                                columns: salesLineColumns,
+                                ariaLabelResx: 'string_1249',
+                                },
+                                axBubbleAttr: 'returnTransactionView_salesOrderLinesView'">
+                                <!-- List of sales line for an order -->
+                        </div>
+                    </div>
+                    <script type="text/html" id="SalesLineColspan">
+                        <div class="lineItemUnitPrice secondaryFontColor row" data-bind="visible: true">
+                            <div class="h4" data-bind="text: Commerce.ViewModelAdapter.getResourceString('string_1208')"></div> <!-- UNIT PRICE -->
+                            <div class="h4">:&nbsp;</div>
+                            <div class="h4" data-bind="text: Commerce.Formatters.PriceFormatter($data.Price)"></div>
+                        </div>
+                        <div class="lineItemExtendedPrice secondaryFontColor row" data-bind="visible: true">
+                            <div class="h4" data-bind="text: Commerce.ViewModelAdapter.getResourceString('string_1210')"></div> <!-- TOTAL -->
+                            <div class="h4">:&nbsp;</div>
+                            <div class="h4" data-bind="text: Commerce.Formatters.PriceFormatter($data.TotalAmount)"></div>
+                        </div>
+                        <div class="lineItemVariant secondaryFontColor row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace($data.variantDescription)">
+                            <div class="h4" data-bind="text: $data.variantDescription"></div>
+                        </div>
+                        <div class="lintItemPriceOverrideText secondaryFontColor" data-bind="visible: $data.IsPriceOverridden">
+                            <div class="h4" data-bind="text: $data.priceOverrideInformation"></div>
+                        </div>
+                        <div class="lineItemComment secondaryFontColor row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace($data.Comment)">
+                            <div class="h4" data-bind="text: $data.IsGiftCardLine ? '' : $data.Comment"></div>
+                        </div>
+                        <div class="lineItemSerialNumber secondaryFontColor row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace($data.SerialNumber)">
+                            <div class="h4" data-bind="text: $data.SerialNumber"></div>
+                        </div>
+                        <div class="lineItemBarcode secondaryFontColor row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace($data.Barcode)">
+                            <div class="h4" data-bind="text: $data.Barcode"></div>
+                        </div>
+                        <div class="secondaryFontColor" data-bind="foreach: { data: $data.DiscountLines, as: 'discountLine' }">
+                            <div class="row">
+                                <div class="h4" data-bind="text: Commerce.DiscountsHelper.getDiscountTypeName(discountLine, $parent.Price, $parent.Quantity)"></div>
+                            </div>
+                        </div>
+                    </script>
+                </div>
+            </div>
+
+            <!-- Bottom app bar -->
+            <div id="commandAppBar" data-bind="appBar: { extensionCommands: viewModel.extensionCommandViewModels }, axBubbleAttr: 'returnTransactionView_commandAppBar'">
+
+                <button data-bind="appBarCommand: {
+                        id: 'searchSalesTransactions',
+                        extraClass: 'iconSearch',
+                        onclick: viewModel.getReceiptIdAndSearchSalesTransactionsAsync.bind(viewModel),
+                        labelResx: 'string_10084',
+                        visible: !viewModel.hasSelectedSalesOrder()
+                    },
+                    axBubbleAttr: 'returnTransactionView_searchButton'"></button><!-- Search Receipt -->
+
+                <button data-bind="appBarCommand: {
+                        id: 'searchProductsButton',
+                        extraClass: 'iconSearch',
+                        onclick: viewModel.searchProductsAndSelectSalesLine.bind(viewModel),
+                        labelResx: 'string_1259',
+                        visible: viewModel.hasSelectedSalesOrder
+                    },
+                    axBubbleAttr: 'returnTransactionView_searchProductsButton'"></button><!-- Search Products -->
+
+                <button data-bind="appBarCommand: {
+                        extraClass: 'iconClearSelection',
+                        id: 'clearSelectionButton',
+                        labelResx: 'string_1248',
+                        enabled: viewModel.hasSelectedSalesLines,
+                        onclick: deselectAll
+                    },
+                    axBubbleAttr: 'returnTransactionView_clearAllButton'"></button> <!--Clear Selection-->
+
+                <button data-bind="appBarCommand: {
+                        extraClass: 'iconSelectAll',
+                        id: 'selectAll',
+                        labelResx: 'string_1213',
+                        enabled: viewModel.hasSalesLinesForDisplay,
+                        onclick: selectAll 
+                    },
+                    axBubbleAttr: 'returnTransactionView_selectAllButton'"></button> <!--Select All-->
+
+                <button data-bind="appBarCommand: {
+                        extraClass: 'iconProductReturn',
+                        id: 'return',
+                        labelResx: 'string_1214',
+                        enabled: viewModel.areSelectedItemsReturnable,
+                        onclick: returnSalesOrderLines 
+                    },
+                    axBubbleAttr: 'returnTransactionView_returnButton'"></button> <!--Return-->
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

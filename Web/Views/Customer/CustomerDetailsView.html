@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CustomersView</title>
+
+    <link href="customerDetailsView.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="fragment customerDetails" data-bind="with: viewModel">
+        <!-- Indeterminate wait -->
+        <div data-bind="loader: { visible: isBusy }"></div>
+        <!-- Page header -->
+        <div data-bind="headerSplitView: { title: viewTitle }">
+            <!-- Main content -->
+            <div class="section main panoramic flexBasis100Percent" data-bind="resx: { ariaLabel: 'string_4454' }">
+
+                <!-- Customer Summary -->
+                <div data-bind="sectionWrapper: { headerResx: 'string_208' }">
+                    <div class="col width352">
+
+                        <div class="col no-shrink primaryPanelBackgroundColor highContrastBorderThin borderBottom0">
+                            <div>
+                                <div class="row">
+                                    <div class="width152 height152 marginRight12 fit-image">
+                                        <img src="#" data-bind="attr: { src: Commerce.Formatters.ImageFormatter(customerImage(), Commerce.DefaultImages.CustomerLarge) }, setImageOnError: Commerce.DefaultImages.CustomerLarge" />
+                                    </div>
+                                    <div class="padTop12">
+
+                                        <!--Customer account number -->
+                                        <div class="padTop12">
+                                            <label data-bind="resx: { textContent: 'string_206' }">CUSTOMER ACCOUNT</label>
+                                            <div class="h4" data-bind="text: customerAccount"></div>
+                                        </div>
+
+                                        <!--Invoice account number of the customer. Only display if customer has an invoice account. -->
+                                        <div class="padTop12" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace(invoiceAccount())">
+                                            <label data-bind="resx: { textContent: 'string_207' }">INVOICE ACCOUNT</label>
+                                            <div class="h4" data-bind="text: invoiceAccount"></div>
+                                        </div>
+
+                                        <!-- date of last visit. currently using most recent purchase date for visit date -->
+                                        <div class="padTop12" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace(dateOfLastVisitString())">
+                                            <label data-bind="resx: { textContent: 'string_201' }">Last store visit</label>
+                                            <div class="h4" data-bind="text: dateOfLastVisitString">Date of last visit</div>
+                                        </div>
+
+                                        <!-- date customer created -->
+                                        <div class="padTop12" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace(dateCreatedString())">
+                                            <label data-bind="resx: { textContent: 'string_202' }">Customer since</label>
+                                            <div class="h4" data-bind="text: dateCreatedString">Date created</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace(customerEmail())">
+                                        <a href="#" data-bind="attr: {href: 'mailto:' + customerEmail()}, resx: { ariaLabel: 'string_1311' }">
+                                            <div class="width352 col ellipsis" data-bind="buttonBlock: {
+                                                    buttonClass: 'iconMail',
+                                                    labelValue: customerEmail,
+                                    },
+                                    axBubbleAttr: 'customerDetailsView_customerEmail'"></div>
+                                        </a>
+                                    </div>
+
+                                    <div class="row" data-bind="visible: !Commerce.StringExtensions.isNullOrWhitespace(customerPhone())">
+                                        <a href="#" data-bind="attr: {href: 'tel:' + customerPhone()}, resx: { ariaLabel: 'string_1309' }">
+                                            <div class="width352 ellipsis" data-bind="buttonBlock: {
+                                                    buttonClass: 'iconPhone',
+                                                    labelValue: customerPhone,    /* Phone number */
+                                    },
+                                    axBubbleAttr: 'customerDetailsView_customerPhone'"></div>
+                                        </a>
+                                    </div>
+                                    <!-- # of customer addresses / add new address -->
+                                    <div class="height32 row pad12 padTop0 marginTop08 marginBottom08" data-bind="visible: addressFilled()">
+                                        <div class="marginTop08 stretch">
+                                            <a class="h4" href="#" data-bind="text: numberOfAddressesText, click: gotoAddressesView, axBubbleAttr: 'customerDetailsView_numberOfAddressesLink'"></a>
+                                        </div>
+                                        <button class="iconAdd" data-bind="click: function() { $root.viewModel.onAddressAddEditClicked() }, resx: { ariaLabel: 'string_4842' }, axBubbleAttr: 'customerDetailsView_addNewAddress'"></button>  <!-- Add address -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-bind="customerCard: {data: customerCardViewModel, template: 'customerPrimaryAddressCardTemplate'}"></div>
+                    </div>
+                </div>
+                <!-- end customer summary -->
+
+                <div class="gutter40x40"></div>
+
+                <!-- ko foreach: { data: customPanelViewModels, as: 'control' } -->
+                <div data-bind="customControl: control, visible: control.isVisible" class="height100Percent maxWidth400"></div>
+                <div class="gutter32x32" data-bind="visible: control.isVisible"></div>
+                <!-- /ko -->
+
+                <!-- Loyalty Cards -->
+                <div data-bind="visible: !isDefaultCustomer(), sectionWrapper: { headerResx: 'string_270' }" class="height100Percent">
+                    <div class="width320 no-shrink col height100Percent">
+                        <div class="col grow" data-bind="visible: !loyaltyCardsIsBusy()">
+                            <div class="marginTop12 no-shrink" data-bind="ifnot: zeroLoyaltyCardVisible">
+                                <a href="#" class="h4" data-bind="click: refreshLoyaltyCards, text: totalLoyaltyCardsString, axBubbleAttr: 'customerDetailsView_totalLoyaltyCardsLink'"></a>
+                            </div>
+
+                            <script id="emptyLoyaltyCardListTemplate" type="text/html">
+                                <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_273' }">There are no loyalty cards</div>
+                            </script>
+
+                            <div id="loyaltyCardList"
+                                 class="noMargin col"
+                                 data-bind="dataList: {
+                                    itemDataSource: loyaltyCards,
+                                    defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                    selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                    itemInvoked: loyaltyCardItemInvokedHandler,
+                                    emptyDataListTemplate: 'emptyLoyaltyCardListTemplate',
+                                    ariaLabelResx: 'string_270',    /* Loyalty cards */
+                                    itemTemplates: [
+                                        {
+                                            templateId: 'customersLoyaltyCardTemplatePhone',
+                                            cardType: Commerce.Controls.DataList.CardType.Stretchable,
+                                            deviceType: Commerce.Controls.DataList.DeviceType.All
+                                        }
+                                    ]
+                                 },
+                                 axBubbleAttr: 'customerDetailsView_loyaltyCards'">
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: loyaltyCardsIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested }"></div>
+                    </div>
+                    <div class="gutter32x32"></div>
+                </div>
+                <!-- end Loyalty Cards -->
+
+                <!-- Recent Purchases -->
+                <div class="height100Percent" data-bind="visible: !isDefaultCustomer(), sectionWrapper: { headerResx: 'string_203' }">
+                    <div class="width320 col height100Percent">
+                        <div class="col grow" data-bind="visible: !recentPurchasesIsBusy()">
+                            <div class="marginTop12 no-shrink" data-bind="ifnot: displayZeroProductsText">
+                                <a href="#" class="h4" data-bind="click: viewAllRecentPurchases, resx: { textContent: 'string_809' }, axBubbleAttr: 'customerDetailsView_viewAllRecentPurchasesLink'"><!-- See all --></a>
+                            </div>
+
+                            <script id="emptyRecentPurchasesListTemplate" type="text/html">
+                                <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_235' }">There are no recent purchases</div>
+                            </script>
+
+                            <div id="recentPurchasesList"
+                                 class="grow noMargin col"
+                                 data-bind="dataList: {
+                                        itemDataSource: recentPurchases,
+                                        defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                        selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                        itemInvoked: recentPurchaseInvokedHandler,
+                                        emptyDataListTemplate: 'emptyRecentPurchasesListTemplate',
+                                        ariaLabelResx: 'string_230',    /* Recent purchases */
+                                        itemTemplates: [
+                                            {
+                                                templateId: 'productRecentPurchaseTemplatePhone',
+                                                cardType: Commerce.Controls.DataList.CardType.Stretchable,
+                                                deviceType: Commerce.Controls.DataList.DeviceType.All
+                                            }
+                                        ]
+                                    },
+                                    axBubbleAttr: 'customerDetailsView_recentPurchases'">
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: recentPurchasesIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested } "></div>
+                    </div>
+                    <div class="gutter32x32"></div>
+                </div>
+                <!-- end recent purchases -->
+
+                <!-- Wish List -->
+                <div class="height100Percent" data-bind="visible: !isDefaultCustomer(), sectionWrapper: { headerResx: 'string_254' }">
+                    <div class="width320 no-shrink col height100Percent">
+                        <div class="grow col" data-bind="visible: !wishListIsBusy()">
+                            <div class="marginTop12 no-shrink" data-bind="ifnot: zeroWishListVisible">
+                                <a href="#" class="h4" data-bind="text: totalWishListsString, click: refreshWishListPanel, axBubbleAttr: 'customerDetailsView_totalWishListsLink'"><!-- # wish lists --></a>
+                            </div>
+
+                            <script id="emptyWishListTemplate" type="text/html">
+                                <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_255' }">There are no wish lists</div>
+                            </script>
+
+                            <div id="wishList"
+                                 class="grow noMargin col"
+                                 data-bind="dataList: {
+                                        itemDataSource: wishLists,
+                                        defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                        selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                        itemInvoked: wishListItemInvokedHandler,
+                                        emptyDataListTemplate: 'emptyWishListTemplate',
+                                        ariaLabelResx: 'string_254',    /* Wish lists */
+                                        itemTemplates: [
+                                            {
+                                                templateId: 'wishListTemplateStretchable',
+                                                cardType: Commerce.Controls.DataList.CardType.Stretchable,
+                                                deviceType: Commerce.Controls.DataList.DeviceType.All
+                                            }
+                                        ]
+                                     },
+                                     axBubbleAttr: 'customerDetailsView_wishLists'">
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: wishListIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested }"></div>
+                    </div>
+                    <div class="gutter32x32"></div>
+                </div>
+                <!-- end wish list -->
+
+                <!-- Recommended Products -->
+                <div class="height100Percent" data-bind="visible: !isDefaultCustomer(), sectionWrapper: { headerResx: 'string_205' }">
+                    <div class="width320 col height100Percent">
+                        <div class="grow col" data-bind="visible: !recommendedProductsIsBusy()">
+                            <div class="marginTop12" data-bind="ifnot: zeroRecommendedProductsVisible">
+                                <a href="#" class="h4" data-bind="click: showAllRecommendedProducts, text: totalRecommendedProductsString, axBubbleAttr: 'customerDetailsView_totalRecommendedProductsLink'"></a>
+                            </div>
+
+                            <script id="emptyRecommendedProductsList" type="text/html">
+                                <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_260' }">There are no recommended products</div>
+                            </script>
+
+                            <div id="customerRecommendedProductsList"
+                                 class="grow noMargin col"
+                                 data-bind="dataList: {
+                                        itemDataSource: recommendedProductsForDisplay,
+                                        defaultListType: Commerce.Controls.DataList.ListType.Card,
+                                        selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                        itemInvoked: recommendedProductInvokedHandler,
+                                        emptyDataListTemplate: 'emptyRecommendedProductsList',
+                                        ariaLabelResx: 'string_205',    /* Recommended products */
+                                        itemTemplates: [
+                                            {
+                                                templateId: 'productGridTemplatePhone',
+                                                cardType: Commerce.Controls.DataList.CardType.Stretchable,
+                                                deviceType: Commerce.Controls.DataList.DeviceType.All
+                                            }
+                                        ]
+                                     },
+                                     axBubbleAttr: 'customerDetailsView_recommendedProducts'">
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: recommendedProductsIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested }"></div>
+                    </div>
+                    <div class="gutter32x32"></div>
+                </div>
+                <!-- end recommended products -->
+
+                <!-- Order History -->
+                <div class="height100Percent" data-bind="visible: !isDefaultCustomer(), sectionWrapper: { headerResx: 'string_204' }">
+                    <div class="orderhistory width400 col height100Percent">
+                        <div class="col grow marginBottom48 flexBasis100Percent" data-bind="visible: !orderHistoryIsBusy()">
+                            <div class="marginTop12" data-bind="ifnot: displayZeroSalesOrdersText">
+                                <a href="#" class="h4" data-bind="click: showAllOrderHistory, resx: { textContent: 'string_250' }, axBubbleAttr: 'customerDetailsView_showAllOrderHistoryLink'"></a><!-- # orders -->
+                            </div>
+
+                            <div class="col grow flexBasis100Percent">
+                                <div class="h4 wrapText secondaryFontColor" data-bind="visible: displayZeroSalesOrdersText, resx: { textContent: 'string_248' }">There are no sales orders</div>
+                                <div class="grow" id="customerSalesOrderList" data-bind="visible: displaySalesOrdersGrid,
+                                    dataList: {
+                                        itemDataSource: salesOrdersToDisplay,
+                                        selectionModes: Commerce.Controls.DataList.SelectionMode.InvokeOnly,
+                                        itemInvoked: viewSalesOrderDetails,
+                                        ariaLabelResx: 'string_3875', /* List of orders */
+                                        columns: [
+                                            { titleResx: 'string_240', ratio: 25, collapseOrder: 3, minWidth: 100, field: 'CreatedDateTime', converter: 'Commerce.Core.Converter.DateWithoutTime' },
+                                            { titleResx: 'string_241', ratio: 50, collapseOrder: 1, minWidth: 200, field: '$data', converter: 'Commerce.Core.Converter.OrderIdFormatter' },
+                                            { titleResx: 'string_242', ratio: 25, collapseOrder: 2, minWidth: 100, field: 'TotalAmount', converter: 'Commerce.Core.Converter.PriceFormatter', isRightAligned: true }
+                                        ]
+                                    },
+                                    axBubbleAttr: 'customerDetailsView_salesOrders'">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: orderHistoryIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested }"></div>
+                    </div>
+                    <div class="gutter40x40"></div>
+                </div>
+                <!-- end order history -->
+
+                <!-- Customer Affiliations -->
+                <div class="height100Percent" data-bind="sectionWrapper: { headerResx: 'string_5200' }">
+                    <div class="width320 col height100Percent">
+                        <div class="col grow marginBottom48 flexBasis100Percent" data-bind="visible: !affiliationsIsBusy()">
+                            <div class="row">
+                                <!--ko ifnot: isCustomerAffiliationsTextVisible -->
+                                <div class="col marginTop12 marginRight12 grow">
+                                    <a href="#" class="h4" data-bind="click: showAllCustomerAffiliations, text: totalCustomerAffiliationsString, axBubbleAttr: 'customerDetailsView_showAllCustomerAffiliationsLink'"><!-- # affiliations --></a>
+                                </div>
+                                <!--/ko-->
+                                <div class="col marginTop12 marginRight12 grow" data-bind="visible: isCustomerAffiliationsTextVisible">
+                                    <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_6300' }">There are no customer affiliations</div>
+                                </div>
+
+                                <div class="col width32">
+                                    <button class="iconAdd" data-bind="click: addAffiliationToCustomerAsync, resx: { ariaLabel: 'string_5201' }, axBubbleAttr: 'customerDetailsView_addAffiliationToCustomerButton'"></button> <!-- Add affiliations -->
+                                </div>
+                            </div>
+
+                            <div class="col grow flexBasis100Percent">
+                                <div id="affiliationList" data-bind="visible: isCustomerAffiliationsGridVisible,
+                                dataList: {
+                                    itemDataSource: customerAffiliations,
+                                    ariaLabelResx: 'string_5200', /* Affiliations */
+                                    columns: [
+                                        { titleResx: 'string_5202', ratio: 40, collapseOrder: 2, minWidth: 200, field: 'Name' },
+                                        { titleResx: 'string_5203', ratio: 60, collapseOrder: 1, minWidth: 200, field: 'Description' }
+                                    ]
+                                },
+                                axBubbleAttr: 'customerDetailsView_customerAffiliations'">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Indeterminate wait -->
+                        <div class="center" data-bind="loader: { visible: affiliationsIsBusy, type: Commerce.Controls.Loader.LoaderType.Nested }"></div>
+                    </div>
+                </div>
+                <!-- end customer affiliations -->
+
+                <div class="gutter40x40"></div>
+
+                <!-- Attributes -->
+                <div class="height100Percent" data-bind="sectionWrapper: { headerResx: 'string_209' }">
+                    <div class="width400 col height100Percent">
+                        <div class="col grow marginBottom48 flexBasis100Percent">
+                            <div class="row">
+                                <div class="col marginTop12 marginRight12 grow" data-bind="visible: !hasCustomerAttributes()">
+                                    <div class="h4 wrapText secondaryFontColor" data-bind="resx: { textContent: 'string_212' }">There are no customer attributes</div>
+                                </div>
+                                <div class="gutter32x32"></div>
+                            </div>
+                            <div class="col grow marginBottom48 flexBasis100Percent">
+                                <div class="col grow flexBasis100Percent" data-bind="visible: hasCustomerAttributes()">
+                                    <div id="additionalPropertiesList" data-bind="dataList: {
+                                    itemDataSource: customerAttributeForDisplayViewModels,
+                                    ariaLabelResx: 'string_209', /* Additional properties */
+                                    columns: [
+                                        { titleResx: 'string_210', ratio: 50, collapseOrder: 2, minWidth: 150, field: 'translatedName' },
+                                        { titleResx: 'string_211', ratio: 50, collapseOrder: 1, minWidth: 150, field: 'valueAsString' }
+                                    ]
+                                },
+                                axBubbleAttr: 'customerDetailsView_additionalProperties'">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end Attributes -->
+
+                <div class="gutter40x40"></div>
+
+            </div>
+
+            <!-- Bottom app bar -->
+            <div id="commandAppBar" data-bind="appBar: { extensionCommands: extensionCommandViewModels }">
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconEdit',
+                    id:'cmdEditCustomer',
+                    onclick: editCustomerClick,
+                    labelResx: 'string_302',
+                    enabled: isCustomerLoaded },
+                    axBubbleAttr: 'customerDetailsView_cmdEditCustomer',"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconAdd',
+                    id:'cmdAddCustomerToSale',
+                    onclick: addToCartClick,
+                    labelResx: 'string_301',
+                    visible: !isSelectionMode,
+                    enabled: isCustomerLoaded },
+                    axBubbleAttr: 'customerDetailsView_cmdAddCustomerToSale'"></button>
+
+                <button data-bind="appBarCommand: {
+                    extraClass: 'iconAccept',
+                    id:'selectCustomer',
+                    onclick: performCustomerSelection,
+                    labelResx: 'string_6405',
+                    visible: isSelectionMode,
+                    enabled: isCustomerLoaded },
+                    axBubbleAttr: 'customerDetailsView_selectCustomerButton'"></button><!--Select-->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

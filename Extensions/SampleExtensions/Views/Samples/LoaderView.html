@@ -1,0 +1,88 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>LoaderView</title>
+</head>
+<body>
+    <div class="LoaderView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msPosLoader</h3>
+                    <div class="pad8">
+                        <div data-bind="msPosLoader: loader">
+                        </div>
+                        <button data-bind="click: showLoaderClick">Show loader</button>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    export interface ILoaderState {
+        visible?: Observable<boolean>;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    import * as NewView from "PosApi/Create/Views";
+    import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+
+    import * as Loader from "PosUISdk/Controls/Loader";
+
+    /**
+     * The controller for LoaderView.
+     */
+    export default class LoaderView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+        public readonly loader: Loader.Loader;
+        private _isLoaderVisible: Observable<boolean>;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                title: "Loader sample"
+            });
+
+            this._isLoaderVisible = ko.observable(false);
+            this.loader = new Loader.Loader({
+                visible: this._isLoaderVisible
+            });
+        }
+
+        public showLoaderClick(): void {
+            this._isLoaderVisible(true);
+            window.setTimeout(() => {
+                this._isLoaderVisible(false);
+            }, 3000);
+        }
+
+        /**
+         * Bind the html element with view controller.
+         *
+         * @param {HTMLElement} element DOM element.
+         */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <div data-bind="msPosLoader: loader">
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

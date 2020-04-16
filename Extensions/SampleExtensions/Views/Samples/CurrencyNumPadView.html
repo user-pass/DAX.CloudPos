@@ -1,0 +1,100 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CurrencyNumPadView</title>
+</head>
+<body>
+    <div class="CurrencyNumPadView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msPosCurrencyNumPad</h3>
+                    <div class="pad8">
+                        <div class="minWidth260 maxWidth320" data-bind="msPosCurrencyNumPad: numPad"></div>
+                        <div class="h4" data-bind="text: 'onEnter - value: ' + numPadValue()"></div>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+                        export interface INumPadState {
+                            label: string;
+                            onEnter: NumPadEnterHandler;
+                            captureGlobalInput: boolean;
+                        }
+
+                        export interface IDecimalPrecisionNumPadState extends INumPadState {
+                            decimalPrecision: number;
+                        }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+                        import * as NewView from "PosApi/Create/Views";
+                        import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+
+                        import { CurrencyNumPad, IDecimalPrecisionNumPadState, INumPadResult } from "PosUISdk/Controls/NumPad";
+
+                        /**
+                        * The controller for CurrencyNumPadView.
+                        */
+                        export default class CurrencyNumPadView extends NewView.ExtensionViewControllerBase {
+                        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+                        public readonly numPad: CurrencyNumPad;
+                        public numPadValue: Observable<string>;
+
+                        constructor(context: NewView.IExtensionViewControllerContext) {
+                        // Do not save in history
+                        super(context, false);
+
+                        this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                        title: "CurrencyNumPad sample"
+                        });
+
+                        this.numPadValue = ko.observable("");
+                        let numPadState: IDecimalPrecisionNumPadState = {
+                        onEnter: this.onNumPadEnter.bind(this),
+                        captureGlobalInput: true,
+                        label: "NumPad label",
+                        decimalPrecision: 3
+                        };
+
+                        this.numPad = new CurrencyNumPad(this, numPadState);
+                        }
+
+                        /**
+                        * Bind the html element with view controller.
+                        *
+                        * @param {HTMLElement} element DOM element.
+                        */
+                        public onReady(element: HTMLElement): void {
+                        super.onReady(element);
+
+                        // Customized binding
+                        ko.applyBindings(this, element);
+                        }
+
+                        /**
+                        * Callback for numpad.
+                        * @param {INumPadResult} result Numpad current value.
+                        */
+                        private onNumPadEnter(result: INumPadResult): void {
+                        this.numPadValue(result.value);
+                        this.numPad.value("");
+                        }
+                        }
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+                        <div data-bind="msPosCurrencyNumPad: numPad">
+                        </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

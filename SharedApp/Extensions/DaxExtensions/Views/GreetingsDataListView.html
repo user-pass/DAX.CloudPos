@@ -1,0 +1,28 @@
+﻿<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script id="GreetingsDataList_DaxExtension" type="text/html">
+        <div class="GreetingsDataListView">
+            <div data-bind="msPosHeaderSplitView: headerSplitView">
+                <div class="grow scrollY">
+                    <div class="pad8 height220">
+                        <div id="dataListSample" data-bind="msPosDataList: dataList"> </div>
+                        <div class="pad20 col width680">
+                            <h3>Actions</h3>
+                            <div class="pad8">
+                                <button data-bind="click: showMenu">Delete</button>
+                                <div data-bind="msPosMenu: menu"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>

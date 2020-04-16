@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Store hours extension</title>
+    <link href="StoreHoursView.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="storeHoursView">
+        <div data-bind="msPosLoader: loader"></div>
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <!-- HTMLLint Disable LabelExistsValidator -->
+            <div id="storeHoursListView" data-bind="msPosDataList: dataList" class="pad20">
+            </div>
+            <!-- HTMLLint Enable LabelExistsValidator -->
+        </div>
+    </div>
+</body>
+</html>

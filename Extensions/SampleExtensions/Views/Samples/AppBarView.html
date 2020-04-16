@@ -1,0 +1,89 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AppBarView</title>
+</head>
+<body>
+    <div class="AppBarView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msSdkAppBar</h3>
+                    <div class="pad8">
+                        <div data-bind="msPosAppBar: appBar">
+                            <button data-bind="msPosAppBarCommand: appBarCommand"></button>
+                        </div>
+                    </div>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    export interface IAppBarCommandState {
+        enabled?: boolean | Observable<boolean>;
+        visible?: boolean | Observable<boolean>;
+        label: string | Observable<string>;
+        id: string;
+        extraClass?: string;
+        execute: () => void;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    export default class AppBarView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+        public readonly appBar: AppBar.AppBar;
+        public readonly appBarCommand: AppBar.AppBarCommand;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            // Initialize the POS SDK Controls.
+            let headerSplitViewState: HeaderSplitView.IHeaderSplitViewState = {
+                title: "Samples"
+            };
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView(headerSplitViewState);
+
+            this.appBar = new AppBar.AppBar();
+            this.appBarCommand = new AppBar.AppBarCommand({
+                id: "AppBarView_appBarCommand",
+                label: "Execute command",
+                extraClass: "iconAdd", // Predefined icon css class
+                execute: this.appBarCommandExecute.bind(this) // bind is necessary to save "this" context.
+            });
+        }
+
+        private appBarCommandExecute(): void {
+            this.context.logger.logInformational("appBarCommandExecute");
+        }
+
+        /**
+        * Bind the html element with view controller.
+        *
+        * @param {HTMLElement} element DOM element.
+        */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <div data-bind="msPosAppBar: appBar">
+        <button data-bind="msPosAppBarCommand: appBarCommand"></button>
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

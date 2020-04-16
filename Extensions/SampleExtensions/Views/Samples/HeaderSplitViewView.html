@@ -1,0 +1,68 @@
+<!--
+    HTMLLint is an internal tool that fails on this file due to non-localized example labels,
+    there is no need for this comment and the one below in real-world extensions.
+-->
+<!-- HTMLLint Disable LabelExistsValidator -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>HeaderSplitViewView</title>
+</head>
+<body>
+    <div class="AppBarView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow marginBottom48 scrollY">
+                <div class="pad20 col width680">
+                    <h3>msPosHeaderSplitView</h3>
+                    <div class="h4 padTop40">ViewModel interface</div>
+                    <textarea class="height220">
+    export interface IHeaderSplitViewState {
+        title?: string | Observable<string>;
+    }
+                    </textarea>
+                    <div class="h4 padTop40">Controller syntax</div>
+                    <textarea class="height220">
+    import * as NewView from "PosApi/Create/Views";
+    import * as HeaderSplitView from "PosUISdk/Controls/HeaderSplitView";
+
+    /**
+     * The controller for HeaderSplitViewView.
+     */
+    export default class HeaderSplitViewView extends NewView.ExtensionViewControllerBase {
+        public readonly headerSplitView: HeaderSplitView.HeaderSplitView;
+
+        constructor(context: NewView.IExtensionViewControllerContext) {
+            // Do not save in history
+            super(context, false);
+
+            this.headerSplitView = new HeaderSplitView.HeaderSplitView({
+                title: "HeaderSplitView sample"
+            });
+        }
+
+        /**
+         * Bind the html element with view controller.
+         *
+         * @param {HTMLElement} element DOM element.
+         */
+        public onReady(element: HTMLElement): void {
+            super.onReady(element);
+
+            // Customized binding
+            ko.applyBindings(this, element);
+        }
+    }
+
+                    </textarea>
+                    <div class="h4 padTop40">HTML syntax</div>
+                    <textarea class="height220">
+    <div data-bind="msPosHeaderSplitView: headerSplitView">
+    </div>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

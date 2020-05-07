@@ -117,6 +117,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <TypeScriptCompile Include="DaxExtensions\BaseClasses\KnockoutExtensionViewControllerBase.ts" />
+    <TypeScriptCompile Include="DaxExtensions\BaseClasses\KnockoutExtensionViewModelBase.ts" />
     <TypeScriptCompile Include="DaxExtensions\DataServices\DataServiceEntities.ts" />
     <TypeScriptCompile Include="DaxExtensions\Dialogs\EmployeeDiscountMessageDialog.ts" />
     <TypeScriptCompile Include="DaxExtensions\Operations\EmployeeDiscount\EmployeeDiscountOperationRequest.ts" />
@@ -132,5 +134,6 @@
     <TypeScriptCompile Include="DaxExtensions\TriggerHandlers\PreProductSaleTrigger.ts" />
     <TypeScriptCompile Include="DaxExtensions\ViewExtensions\CustomerDetailsPanel.ts" />
     <TypeScriptCompile Include="DaxExtensions\Views\GreetingsDataListView.ts" />
+    <TypeScriptCompile Include="DaxExtensions\Views\GreetingsDataListViewModel.ts" />
   </ItemGroup>
 </Project>

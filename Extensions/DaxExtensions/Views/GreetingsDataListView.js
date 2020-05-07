@@ -37,7 +37,7 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                     var _this = _super.call(this, context, false) || this;
                     _this.selectedLine = null;
                     _this.invitations = ko.observableArray([]);
-                    _this.viewModel = new GreetingsDataListViewModel_1.default(context, _this);
+                    _this.viewModel = new GreetingsDataListViewModel_1.default(context);
                     _this.headerSplitView = new HeaderSplitView.HeaderSplitView({
                         title: "Invitation Table View"
                     });

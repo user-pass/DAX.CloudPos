@@ -27,14 +27,13 @@ System.register(["../DataServices/DataServiceRequests", "DataServices/DataServic
         execute: function () {
             GreetingsDataListViewModel = (function (_super) {
                 __extends(GreetingsDataListViewModel, _super);
-                function GreetingsDataListViewModel(_context, _view) {
+                function GreetingsDataListViewModel(_context) {
                     var _this = _super.call(this) || this;
                     _this.context = _context;
-                    _this.view = _view;
                     return _this;
                 }
-                GreetingsDataListViewModel.prototype.menuCommandClickDeleteSelected = function (args) {
-                    var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(this.view.selectedLine);
+                GreetingsDataListViewModel.prototype.menuCommandClickDeleteSelected = function (args, view) {
+                    var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(view.selectedLine);
                     this.context.runtime.executeAsync(dataService);
                 };
                 GreetingsDataListViewModel.prototype.menuCommandClickDeleteAll = function (args) {

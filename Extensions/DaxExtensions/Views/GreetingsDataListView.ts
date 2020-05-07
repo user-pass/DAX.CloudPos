@@ -24,7 +24,7 @@ export default class GreetingsDataListView extends KnockoutExtensionViewControll
 
         this.invitations = ko.observableArray<Entities.Invitation>([]);
 
-        this.viewModel = new GreetingsDataListViewModel(context, this);
+        this.viewModel = new GreetingsDataListViewModel(context);
 
         this.headerSplitView = new HeaderSplitView.HeaderSplitView({
             title: "Invitation Table View"

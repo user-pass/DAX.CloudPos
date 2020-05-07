@@ -5,9 +5,8 @@ import KnockoutExtensionViewModelBase from "../BaseClasses/KnockoutExtensionView
 import GreetingsDataListView from "Views/GreetingsDataListView";
 export default class GreetingsDataListViewModel extends KnockoutExtensionViewModelBase {
     private context;
-    private view;
-    constructor(_context: IExtensionViewControllerContext, _view: GreetingsDataListView);
-    menuCommandClickDeleteSelected(args: Menu.IMenuCommandClickArgs): void;
+    constructor(_context: IExtensionViewControllerContext);
+    menuCommandClickDeleteSelected(args: Menu.IMenuCommandClickArgs, view: GreetingsDataListView): void;
     menuCommandClickDeleteAll(args: Menu.IMenuCommandClickArgs): void;
     menuCommandClickAddNewRecord(args: Menu.IMenuCommandClickArgs): void;
     loadDataPage(): Promise<Entities.Invitation[]>;

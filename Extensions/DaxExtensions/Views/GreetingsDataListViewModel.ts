@@ -11,17 +11,15 @@ import GreetingsDataListView from "Views/GreetingsDataListView";
 export default class GreetingsDataListViewModel extends KnockoutExtensionViewModelBase {
 
     private context: IExtensionViewControllerContext;
-    private view: GreetingsDataListView;
 
-    constructor(_context: IExtensionViewControllerContext, _view: GreetingsDataListView) {
+    constructor(_context: IExtensionViewControllerContext) {
         super();
         this.context = _context;
-        this.view = _view;
     }
 
-    public menuCommandClickDeleteSelected(args: Menu.IMenuCommandClickArgs): void {
+    public menuCommandClickDeleteSelected(args: Menu.IMenuCommandClickArgs, view: GreetingsDataListView): void {
         let dataService: InvitationController.DeleteInvitationRequest<InvitationController.DeleteInvitationResponse> =
-            new InvitationController.DeleteInvitationRequest(this.view.selectedLine);
+            new InvitationController.DeleteInvitationRequest(view.selectedLine);
         this.context.runtime.executeAsync(dataService);
     }
 

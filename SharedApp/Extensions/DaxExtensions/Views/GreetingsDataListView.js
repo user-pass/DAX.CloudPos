@@ -1,4 +1,4 @@
-System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", "PosUISdk/Controls/DataList", "Views/GreetingsDataListViewModel", "../BaseClasses/KnockoutExtensionViewControllerBase"], function (exports_1, context_1) {
+System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", "PosUISdk/Controls/DataList", "../Views/GreetingsDataListViewModel", "../BaseClasses/KnockoutExtensionViewControllerBase"], function (exports_1, context_1) {
     "use strict";
     var __extends = (this && this.__extends) || (function () {
         var extendStatics = Object.setPrototypeOf ||
@@ -34,9 +34,7 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
             GreetingsDataListView = (function (_super) {
                 __extends(GreetingsDataListView, _super);
                 function GreetingsDataListView(context) {
-                    var _this = _super.call(this, context, false) || this;
-                    _this.selectedLine = null;
-                    _this.invitations = ko.observableArray([]);
+                    var _this = _super.call(this, context, true) || this;
                     _this.viewModel = new GreetingsDataListViewModel_1.default(context);
                     _this.headerSplitView = new HeaderSplitView.HeaderSplitView({
                         title: "Invitation Table View"
@@ -44,13 +42,13 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                     var invitationDataListOptions = {
                         autoSelectFirstItem: false,
                         selectionMode: DataList_1.SelectionMode.SingleSelect,
-                        selectionChanged: _this.dataListSelectionChanged,
-                        itemDataSource: _this.invitations,
+                        selectionChanged: _this.viewModel.dataListSelectionChanged,
+                        itemDataSource: _this.viewModel.invitations,
                         columns: [
                             {
                                 title: "Message",
-                                ratio: 40,
-                                collapseOrder: 3,
+                                ratio: 50,
+                                collapseOrder: 2,
                                 minWidth: 100,
                                 computeValue: function (value) {
                                     return value.Message;
@@ -58,20 +56,11 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                             },
                             {
                                 title: "Language",
-                                ratio: 30,
+                                ratio: 50,
                                 collapseOrder: 1,
                                 minWidth: 100,
                                 computeValue: function (value) {
                                     return value.Language;
-                                }
-                            },
-                            {
-                                title: "Record ID",
-                                ratio: 30,
-                                collapseOrder: 2,
-                                minWidth: 100,
-                                computeValue: function (value) {
-                                    return value.Id;
                                 }
                             }
                         ]
@@ -93,6 +82,11 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                                 id: "addNew",
                                 label: "Add new record",
                                 onClick: _this.viewModel.menuCommandClickAddNewRecord.bind(_this)
+                            },
+                            {
+                                id: "updateSelected",
+                                label: "Update selected record",
+                                onClick: _this.viewModel.menuCommandClickUpdateSelected.bind(_this)
                             }
                         ]
                     });
@@ -100,16 +94,10 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                 }
                 GreetingsDataListView.prototype.onReady = function (element) {
                     _super.prototype.onReady.call(this, element);
-                    var arr = [];
-                    arr.push(this.viewModel.loadDataPage());
-                    this.invitations(arr);
-                    ko.applyBindings(this, element);
+                    this.viewModel.loadDataPage();
                 };
                 GreetingsDataListView.prototype.showMenu = function (controller, eventArgs) {
                     this.menu.show(event.currentTarget);
-                };
-                GreetingsDataListView.prototype.dataListSelectionChanged = function (lines) {
-                    this.selectedLine = lines[0];
                 };
                 return GreetingsDataListView;
             }(KnockoutExtensionViewControllerBase_1.default));

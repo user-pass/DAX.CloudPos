@@ -6,21 +6,21 @@
     <title>Greetings</title>
 </head>
 <body>
-        <div class="GreetingsDataListView">
-            <div data-bind="msPosHeaderSplitView: headerSplitView">
-                <div class="grow scrollY">
-                    <div class="pad8 height220">
-                        <div id="dataListSample" data-bind="msPosDataList: dataList"> </div>
-                        <div class="pad20 col width680">
-                            <h3>Actions</h3>
-                            <div class="pad8">
-                                <button data-bind="click: showMenu">Delete</button>
-                                <div data-bind="msPosMenu: menu"></div>
-                            </div>
-                        </div>
+    <div class="GreetingsDataListView">
+        <div data-bind="msPosHeaderSplitView: headerSplitView">
+            <div class="grow scrollY">
+                <div class="pad8 height220">
+                    <div id="dataList" data-bind="msPosDataList: dataList"> </div>
+                </div>
+                <div class="pad20" align="center">
+                    <h3>Actions</h3>
+                    <div class="pad8" align="center">
+                        <button data-bind="click: showMenu">Show actions</button>
+                        <div data-bind="msPosMenu: menu"></div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </body>
 </html>

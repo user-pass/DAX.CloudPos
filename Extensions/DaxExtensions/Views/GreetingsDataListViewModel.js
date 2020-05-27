@@ -1,4 +1,4 @@
-System.register(["../DataServices/DataServiceRequests", "DataServices/DataServiceEntities", "../BaseClasses/KnockoutExtensionViewModelBase"], function (exports_1, context_1) {
+System.register(["../DataServices/DataServiceRequests", "../DataServices/DataServiceEntities", "../BaseClasses/KnockoutExtensionViewModelBase"], function (exports_1, context_1) {
     "use strict";
     var __extends = (this && this.__extends) || (function () {
         var extendStatics = Object.setPrototypeOf ||
@@ -29,16 +29,31 @@ System.register(["../DataServices/DataServiceRequests", "DataServices/DataServic
                 __extends(GreetingsDataListViewModel, _super);
                 function GreetingsDataListViewModel(_context) {
                     var _this = _super.call(this) || this;
+                    _this.selectedLine = null;
                     _this.context = _context;
+                    _this.invitations = ko.observableArray([]);
                     return _this;
                 }
-                GreetingsDataListViewModel.prototype.menuCommandClickDeleteSelected = function (args, view) {
-                    var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(view.selectedLine);
-                    this.context.runtime.executeAsync(dataService);
+                GreetingsDataListViewModel.prototype.dataListSelectionChanged = function (lines) {
+                    this.selectedLine = lines[0];
+                };
+                GreetingsDataListViewModel.prototype.menuCommandClickDeleteSelected = function (args) {
+                    var _this = this;
+                    var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(this.selectedLine);
+                    this.context.runtime.executeAsync(dataService).then(function (result) {
+                        if (!result.canceled) {
+                            _this.loadDataPage();
+                        }
+                    });
                 };
                 GreetingsDataListViewModel.prototype.menuCommandClickDeleteAll = function (args) {
+                    var _this = this;
                     var dataService = new DataServiceRequests_1.InvitationController.DeleteAllInvitationsRequest();
-                    this.context.runtime.executeAsync(dataService);
+                    this.context.runtime.executeAsync(dataService).then(function (result) {
+                        if (!result.canceled) {
+                            _this.loadDataPage();
+                        }
+                    });
                 };
                 GreetingsDataListViewModel.prototype.menuCommandClickAddNewRecord = function (args) {
                     var _this = this;
@@ -59,24 +74,58 @@ System.register(["../DataServices/DataServiceRequests", "DataServices/DataServic
                                         var newInvitation = new DataServiceEntities_1.Entities.Invitation();
                                         newInvitation.Language = languageText;
                                         newInvitation.Message = messageText;
+                                        var dataService = new DataServiceRequests_1.InvitationController.InsertInvitationRequest(newInvitation);
+                                        _this.context.runtime.executeAsync(dataService).then(function (result) {
+                                            if (!result.canceled) {
+                                                _this.loadDataPage();
+                                            }
+                                        });
                                     }
                                 }
                             });
                         }
                     });
                 };
+                GreetingsDataListViewModel.prototype.menuCommandClickUpdateSelected = function (args) {
+                    var _this = this;
+                    if (this.selectedLine) {
+                        var messageOptions = { label: "Please enter new message:" };
+                        var messageText_1 = "";
+                        var languageOptions_1 = { label: "Please enter new language:" };
+                        var languageText_1 = "";
+                        var corellationId_1;
+                        var messageRequest = new Commerce.ShowTextInputDialogClientRequest(messageOptions, corellationId_1);
+                        this.context.runtime.executeAsync(messageRequest).then(function (result) {
+                            if (!result.canceled) {
+                                messageText_1 = result.data.result.value.toString();
+                                var languageRequest = new Commerce.ShowTextInputDialogClientRequest(languageOptions_1, corellationId_1);
+                                _this.context.runtime.executeAsync(languageRequest).then(function (result) {
+                                    if (!result.canceled) {
+                                        languageText_1 = result.data.result.value.toString();
+                                        if (languageText_1) {
+                                            var newInvitation = new DataServiceEntities_1.Entities.Invitation();
+                                            newInvitation.Language = languageText_1;
+                                            newInvitation.Message = messageText_1;
+                                            newInvitation.Id = _this.selectedLine.Id;
+                                            var dataService = new DataServiceRequests_1.InvitationController.UpdateInvitationRequest(newInvitation);
+                                            _this.context.runtime.executeAsync(dataService).then(function (result) {
+                                                if (!result.canceled) {
+                                                    _this.loadDataPage();
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                };
                 GreetingsDataListViewModel.prototype.loadDataPage = function () {
                     var _this = this;
-                    var promise = new Promise(function (resolve) {
-                        var dataService = new DataServiceRequests_1.InvitationController.GetAllInvitationsRequest();
-                        _this.context.runtime.executeAsync(dataService).then(function (result) {
-                            setTimeout(function () {
-                                var pageData = result.data.result;
-                                resolve(pageData);
-                            }, 1000);
-                        });
+                    var dataService = new DataServiceRequests_1.InvitationController.GetAllInvitationsRequest();
+                    this.context.runtime.executeAsync(dataService).then(function (result) {
+                        _this.invitations(result.data.result);
                     });
-                    return promise;
                 };
                 return GreetingsDataListViewModel;
             }(KnockoutExtensionViewModelBase_1.default));

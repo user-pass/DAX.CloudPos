@@ -25,13 +25,17 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
     }
 
     public menuCommandClickDeleteSelected(args: Menu.IMenuCommandClickArgs): void {
-        let dataService: InvitationController.DeleteInvitationRequest<InvitationController.DeleteInvitationResponse> =
-            new InvitationController.DeleteInvitationRequest(this.selectedLine);
-        this.context.runtime.executeAsync(dataService).then((result) => {
-            if (!result.canceled) {
-                this.loadDataPage();
-            }     
-        });
+        if (this.selectedLine) {
+            let dataService: InvitationController.DeleteInvitationRequest<InvitationController.DeleteInvitationResponse> =
+                new InvitationController.DeleteInvitationRequest(this.selectedLine);
+            this.context.runtime.executeAsync(dataService).then((result) => {
+                if (!result.canceled) {
+                    this.loadDataPage();
+                }
+            });
+        } else {
+            alert("Line is not selected");
+        }
     }
 
     public menuCommandClickDeleteAll(args: Menu.IMenuCommandClickArgs): void {
@@ -68,10 +72,10 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
                             newInvitation.Message = messageText;
                             let dataService: InvitationController.InsertInvitationRequest<InvitationController.InsertInvitationResponse> =
                                 new InvitationController.InsertInvitationRequest(newInvitation);
-                                this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
+                            this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
                                 if (!result.canceled) {
                                     this.loadDataPage();
-                                    }
+                                }
                             });
                         }
                     }
@@ -116,7 +120,9 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
                         }
                     });
                 }
-            });          
+            });
+        } else {
+            alert("Line is not selected");
         }
     }
 

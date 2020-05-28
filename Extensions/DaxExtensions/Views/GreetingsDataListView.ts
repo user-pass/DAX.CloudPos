@@ -26,7 +26,7 @@ export default class GreetingsDataListView extends KnockoutExtensionViewControll
         let invitationDataListOptions: IDataListState<Entities.Invitation> = {
             autoSelectFirstItem: false,
             selectionMode: SelectionMode.SingleSelect,
-            selectionChanged: this.viewModel.dataListSelectionChanged,
+            selectionChanged: this.viewModel.dataListSelectionChanged.bind(this.viewModel),
             itemDataSource: this.viewModel.invitations,
 
             columns: [
@@ -58,23 +58,23 @@ export default class GreetingsDataListView extends KnockoutExtensionViewControll
                 {
                     id: "deleteSelected",
                     label: "Delete selected record",
-                    onClick: this.viewModel.menuCommandClickDeleteSelected.bind(this)
+                    onClick: this.viewModel.menuCommandClickDeleteSelected.bind(this.viewModel)
 
                 },
                 {
                     id: "deleteAll",
                     label: "Delete all records",
-                    onClick: this.viewModel.menuCommandClickDeleteAll.bind(this)
+                    onClick: this.viewModel.menuCommandClickDeleteAll.bind(this.viewModel)
                 },
                 {
                     id: "addNew",
                     label: "Add new record",
-                    onClick: this.viewModel.menuCommandClickAddNewRecord.bind(this)
+                    onClick: this.viewModel.menuCommandClickAddNewRecord.bind(this.viewModel)
                 },
                 {
                     id: "updateSelected",
                     label: "Update selected record",
-                    onClick: this.viewModel.menuCommandClickUpdateSelected.bind(this)
+                    onClick: this.viewModel.menuCommandClickUpdateSelected.bind(this.viewModel)
                 }
             ]
         });

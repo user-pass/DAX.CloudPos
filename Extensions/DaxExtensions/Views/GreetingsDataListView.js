@@ -42,7 +42,7 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                     var invitationDataListOptions = {
                         autoSelectFirstItem: false,
                         selectionMode: DataList_1.SelectionMode.SingleSelect,
-                        selectionChanged: _this.viewModel.dataListSelectionChanged,
+                        selectionChanged: _this.viewModel.dataListSelectionChanged.bind(_this.viewModel),
                         itemDataSource: _this.viewModel.invitations,
                         columns: [
                             {
@@ -71,22 +71,22 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                             {
                                 id: "deleteSelected",
                                 label: "Delete selected record",
-                                onClick: _this.viewModel.menuCommandClickDeleteSelected.bind(_this)
+                                onClick: _this.viewModel.menuCommandClickDeleteSelected.bind(_this.viewModel)
                             },
                             {
                                 id: "deleteAll",
                                 label: "Delete all records",
-                                onClick: _this.viewModel.menuCommandClickDeleteAll.bind(_this)
+                                onClick: _this.viewModel.menuCommandClickDeleteAll.bind(_this.viewModel)
                             },
                             {
                                 id: "addNew",
                                 label: "Add new record",
-                                onClick: _this.viewModel.menuCommandClickAddNewRecord.bind(_this)
+                                onClick: _this.viewModel.menuCommandClickAddNewRecord.bind(_this.viewModel)
                             },
                             {
                                 id: "updateSelected",
                                 label: "Update selected record",
-                                onClick: _this.viewModel.menuCommandClickUpdateSelected.bind(_this)
+                                onClick: _this.viewModel.menuCommandClickUpdateSelected.bind(_this.viewModel)
                             }
                         ]
                     });

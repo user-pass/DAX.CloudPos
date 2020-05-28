@@ -17,25 +17,25 @@ export declare namespace InvitationController {
         constructor();
     }
     class DeleteInvitationResponse extends DataServiceResponse {
-        result: Entities.Invitation[];
+        result: boolean;
     }
     class DeleteInvitationRequest<TResponse extends DeleteInvitationResponse> extends DataServiceRequest<TResponse> {
         constructor(deleteInvitationRecord: Entities.Invitation);
     }
     class DeleteAllInvitationsResponse extends DataServiceResponse {
-        result: Entities.Invitation[];
+        result: boolean;
     }
     class DeleteAllInvitationsRequest<TResponse extends DeleteAllInvitationsResponse> extends DataServiceRequest<TResponse> {
         constructor();
     }
     class InsertInvitationResponse extends DataServiceResponse {
-        result: Entities.Invitation[];
+        result: boolean;
     }
     class InsertInvitationRequest<TResponse extends InsertInvitationResponse> extends DataServiceRequest<TResponse> {
         constructor(insertInvitationRecord: Entities.Invitation);
     }
     class UpdateInvitationResponse extends DataServiceResponse {
-        result: Entities.Invitation[];
+        result: boolean;
     }
     class UpdateInvitationRequest<TResponse extends UpdateInvitationResponse> extends DataServiceRequest<TResponse> {
         constructor(updateInvitationRecord: Entities.Invitation);

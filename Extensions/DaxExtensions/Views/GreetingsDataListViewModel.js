@@ -39,12 +39,17 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                 };
                 GreetingsDataListViewModel.prototype.menuCommandClickDeleteSelected = function (args) {
                     var _this = this;
-                    var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(this.selectedLine);
-                    this.context.runtime.executeAsync(dataService).then(function (result) {
-                        if (!result.canceled) {
-                            _this.loadDataPage();
-                        }
-                    });
+                    if (this.selectedLine) {
+                        var dataService = new DataServiceRequests_1.InvitationController.DeleteInvitationRequest(this.selectedLine);
+                        this.context.runtime.executeAsync(dataService).then(function (result) {
+                            if (!result.canceled) {
+                                _this.loadDataPage();
+                            }
+                        });
+                    }
+                    else {
+                        alert("Line is not selected");
+                    }
                 };
                 GreetingsDataListViewModel.prototype.menuCommandClickDeleteAll = function (args) {
                     var _this = this;
@@ -118,6 +123,9 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                                 });
                             }
                         });
+                    }
+                    else {
+                        alert("Line is not selected");
                     }
                 };
                 GreetingsDataListViewModel.prototype.loadDataPage = function () {

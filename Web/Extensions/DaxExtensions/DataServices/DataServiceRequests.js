@@ -93,8 +93,8 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                         _this._method = "DeleteInvitation";
                         _this._parameters = { deleteInvitationRecord: deleteInvitationRecord };
                         _this._isAction = true;
-                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
-                        _this._isReturnTypeCollection = true;
+                        _this._returnType = null;
+                        _this._isReturnTypeCollection = false;
                         return _this;
                     }
                     return DeleteInvitationRequest;
@@ -117,8 +117,8 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                         _this._method = "DeleteAllInvitations";
                         _this._parameters = {};
                         _this._isAction = true;
-                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
-                        _this._isReturnTypeCollection = true;
+                        _this._returnType = null;
+                        _this._isReturnTypeCollection = false;
                         return _this;
                     }
                     return DeleteAllInvitationsRequest;
@@ -141,8 +141,8 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                         _this._method = "InsertInvitation";
                         _this._parameters = { insertInvitationRecord: insertInvitationRecord };
                         _this._isAction = true;
-                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
-                        _this._isReturnTypeCollection = true;
+                        _this._returnType = null;
+                        _this._isReturnTypeCollection = false;
                         return _this;
                     }
                     return InsertInvitationRequest;
@@ -165,8 +165,8 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                         _this._method = "UpdateInvitation";
                         _this._parameters = { updateInvitationRecord: updateInvitationRecord };
                         _this._isAction = true;
-                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
-                        _this._isReturnTypeCollection = true;
+                        _this._returnType = null;
+                        _this._isReturnTypeCollection = false;
                         return _this;
                     }
                     return UpdateInvitationRequest;

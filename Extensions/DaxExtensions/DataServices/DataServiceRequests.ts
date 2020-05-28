@@ -52,7 +52,7 @@ export namespace InvitationController {
   }
 
   export class DeleteInvitationResponse extends DataServiceResponse {
-    public result: Entities.Invitation[];
+    public result: boolean;
   }
 
   export class DeleteInvitationRequest<TResponse extends DeleteInvitationResponse> extends DataServiceRequest<TResponse> {
@@ -67,14 +67,14 @@ export namespace InvitationController {
         this._method = "DeleteInvitation";
         this._parameters = { deleteInvitationRecord: deleteInvitationRecord };
         this._isAction = true;
-        this._returnType = Entities.Invitation;
-        this._isReturnTypeCollection = true;
+        this._returnType = null;
+        this._isReturnTypeCollection = false;
         
       }
   }
 
   export class DeleteAllInvitationsResponse extends DataServiceResponse {
-    public result: Entities.Invitation[];
+    public result: boolean;
   }
 
   export class DeleteAllInvitationsRequest<TResponse extends DeleteAllInvitationsResponse> extends DataServiceRequest<TResponse> {
@@ -89,14 +89,14 @@ export namespace InvitationController {
         this._method = "DeleteAllInvitations";
         this._parameters = {  };
         this._isAction = true;
-        this._returnType = Entities.Invitation;
-        this._isReturnTypeCollection = true;
+        this._returnType = null;
+        this._isReturnTypeCollection = false;
         
       }
   }
 
   export class InsertInvitationResponse extends DataServiceResponse {
-    public result: Entities.Invitation[];
+    public result: boolean;
   }
 
   export class InsertInvitationRequest<TResponse extends InsertInvitationResponse> extends DataServiceRequest<TResponse> {
@@ -111,14 +111,14 @@ export namespace InvitationController {
         this._method = "InsertInvitation";
         this._parameters = { insertInvitationRecord: insertInvitationRecord };
         this._isAction = true;
-        this._returnType = Entities.Invitation;
-        this._isReturnTypeCollection = true;
+        this._returnType = null;
+        this._isReturnTypeCollection = false;
         
       }
   }
 
   export class UpdateInvitationResponse extends DataServiceResponse {
-    public result: Entities.Invitation[];
+    public result: boolean;
   }
 
   export class UpdateInvitationRequest<TResponse extends UpdateInvitationResponse> extends DataServiceRequest<TResponse> {
@@ -133,8 +133,8 @@ export namespace InvitationController {
         this._method = "UpdateInvitation";
         this._parameters = { updateInvitationRecord: updateInvitationRecord };
         this._isAction = true;
-        this._returnType = Entities.Invitation;
-        this._isReturnTypeCollection = true;
+        this._returnType = null;
+        this._isReturnTypeCollection = false;
         
       }
   }

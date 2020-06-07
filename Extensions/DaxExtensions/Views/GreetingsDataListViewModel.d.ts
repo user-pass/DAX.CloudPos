@@ -5,6 +5,7 @@ import KnockoutExtensionViewModelBase from "../BaseClasses/KnockoutExtensionView
 export default class GreetingsDataListViewModel extends KnockoutExtensionViewModelBase {
     private context;
     invitations: ObservableArray<Entities.Invitation>;
+    languages: ObservableArray<Entities.Language>;
     constructor(_context: IExtensionViewControllerContext);
     selectedLine: Entities.Invitation;
     dataListSelectionChanged(lines: Entities.Invitation[]): void;
@@ -13,4 +14,5 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
     menuCommandClickAddNewRecord(args: Menu.IMenuCommandClickArgs): void;
     menuCommandClickUpdateSelected(args: Menu.IMenuCommandClickArgs): void;
     loadDataPage(): void;
+    loadLanguages(): void;
 }

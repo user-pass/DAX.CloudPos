@@ -41,3 +41,11 @@ export declare namespace InvitationController {
         constructor(updateInvitationRecord: Entities.Invitation);
     }
 }
+export declare namespace LanguageController {
+    class GetAllLanguagesResponse extends DataServiceResponse {
+        result: Entities.Language[];
+    }
+    class GetAllLanguagesRequest<TResponse extends GetAllLanguagesResponse> extends DataServiceRequest<TResponse> {
+        constructor();
+    }
+}

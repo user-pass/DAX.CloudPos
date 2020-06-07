@@ -140,3 +140,29 @@ export namespace InvitationController {
   }
 
 }
+
+export namespace LanguageController {
+  // Entity Set Language
+  export class GetAllLanguagesResponse extends DataServiceResponse {
+    public result: Entities.Language[];
+  }
+
+  export class GetAllLanguagesRequest<TResponse extends GetAllLanguagesResponse> extends DataServiceRequest<TResponse> {
+    /**
+     * Constructor
+     */
+      public constructor() {
+        super();
+
+        this._entitySet = "LanguageController";
+        this._entityType = "Language";
+        this._method = "GetAllLanguages";
+        this._parameters = {  };
+        this._isAction = true;
+        this._returnType = Entities.Language;
+        this._isReturnTypeCollection = true;
+        
+      }
+  }
+
+}

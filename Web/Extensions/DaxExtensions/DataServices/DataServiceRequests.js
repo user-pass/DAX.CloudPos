@@ -11,7 +11,7 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
         };
     })();
     var __moduleName = context_1 && context_1.id;
-    var Entities_1, DataServiceEntities_1, DataService_1, InvitationController;
+    var Entities_1, DataServiceEntities_1, DataService_1, InvitationController, LanguageController;
     return {
         setters: [
             function (Entities_1_1) {
@@ -174,6 +174,33 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                 InvitationController.UpdateInvitationRequest = UpdateInvitationRequest;
             })(InvitationController || (InvitationController = {}));
             exports_1("InvitationController", InvitationController);
+            (function (LanguageController) {
+                var GetAllLanguagesResponse = (function (_super) {
+                    __extends(GetAllLanguagesResponse, _super);
+                    function GetAllLanguagesResponse() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return GetAllLanguagesResponse;
+                }(DataService_1.DataServiceResponse));
+                LanguageController.GetAllLanguagesResponse = GetAllLanguagesResponse;
+                var GetAllLanguagesRequest = (function (_super) {
+                    __extends(GetAllLanguagesRequest, _super);
+                    function GetAllLanguagesRequest() {
+                        var _this = _super.call(this) || this;
+                        _this._entitySet = "LanguageController";
+                        _this._entityType = "Language";
+                        _this._method = "GetAllLanguages";
+                        _this._parameters = {};
+                        _this._isAction = true;
+                        _this._returnType = DataServiceEntities_1.Entities.Language;
+                        _this._isReturnTypeCollection = true;
+                        return _this;
+                    }
+                    return GetAllLanguagesRequest;
+                }(DataService_1.DataServiceRequest));
+                LanguageController.GetAllLanguagesRequest = GetAllLanguagesRequest;
+            })(LanguageController || (LanguageController = {}));
+            exports_1("LanguageController", LanguageController);
         }
     };
 });

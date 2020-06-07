@@ -1,4 +1,4 @@
-System.register(["../DataServices/DataServiceRequests", "../DataServices/DataServiceEntities", "../BaseClasses/KnockoutExtensionViewModelBase"], function (exports_1, context_1) {
+System.register(["../DataServices/DataServiceRequests", "../DataServices/DataServiceEntities", "../BaseClasses/KnockoutExtensionViewModelBase", "../Dialogs/GreetingsLanguageListDialog"], function (exports_1, context_1) {
     "use strict";
     var __extends = (this && this.__extends) || (function () {
         var extendStatics = Object.setPrototypeOf ||
@@ -11,7 +11,7 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
         };
     })();
     var __moduleName = context_1 && context_1.id;
-    var DataServiceRequests_1, DataServiceEntities_1, KnockoutExtensionViewModelBase_1, GreetingsDataListViewModel;
+    var DataServiceRequests_1, DataServiceEntities_1, KnockoutExtensionViewModelBase_1, GreetingsLanguageListDialog_1, GreetingsDataListViewModel;
     return {
         setters: [
             function (DataServiceRequests_1_1) {
@@ -22,6 +22,9 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
             },
             function (KnockoutExtensionViewModelBase_1_1) {
                 KnockoutExtensionViewModelBase_1 = KnockoutExtensionViewModelBase_1_1;
+            },
+            function (GreetingsLanguageListDialog_1_1) {
+                GreetingsLanguageListDialog_1 = GreetingsLanguageListDialog_1_1;
             }
         ],
         execute: function () {
@@ -32,6 +35,7 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                     _this.selectedLine = null;
                     _this.context = _context;
                     _this.invitations = ko.observableArray([]);
+                    _this.languages = ko.observableArray([]);
                     return _this;
                 }
                 GreetingsDataListViewModel.prototype.dataListSelectionChanged = function (lines) {
@@ -64,30 +68,12 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                     var _this = this;
                     var messageOptions = { label: "Please enter new message:" };
                     var messageText = "";
-                    var languageOptions = { label: "Please enter new language:" };
-                    var languageText = "";
                     var corellationId;
                     var messageRequest = new Commerce.ShowTextInputDialogClientRequest(messageOptions, corellationId);
                     this.context.runtime.executeAsync(messageRequest).then(function (result) {
                         if (!result.canceled) {
                             messageText = result.data.result.value.toString();
-                            var languageRequest = new Commerce.ShowTextInputDialogClientRequest(languageOptions, corellationId);
-                            _this.context.runtime.executeAsync(languageRequest).then(function (result) {
-                                if (!result.canceled) {
-                                    languageText = result.data.result.value.toString();
-                                    if (languageText) {
-                                        var newInvitation = new DataServiceEntities_1.Entities.Invitation();
-                                        newInvitation.Language = languageText;
-                                        newInvitation.Message = messageText;
-                                        var dataService = new DataServiceRequests_1.InvitationController.InsertInvitationRequest(newInvitation);
-                                        _this.context.runtime.executeAsync(dataService).then(function (result) {
-                                            if (!result.canceled) {
-                                                _this.loadDataPage();
-                                            }
-                                        });
-                                    }
-                                }
-                            });
+                            GreetingsLanguageListDialog_1.default.show(_this.context, _this.languages);
                         }
                     });
                 };
@@ -133,6 +119,13 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                     var dataService = new DataServiceRequests_1.InvitationController.GetAllInvitationsRequest();
                     this.context.runtime.executeAsync(dataService).then(function (result) {
                         _this.invitations(result.data.result);
+                    });
+                };
+                GreetingsDataListViewModel.prototype.loadLanguages = function () {
+                    var _this = this;
+                    var dataService = new DataServiceRequests_1.LanguageController.GetAllLanguagesRequest();
+                    this.context.runtime.executeAsync(dataService).then(function (result) {
+                        _this.languages(result.data.result);
                     });
                 };
                 return GreetingsDataListViewModel;

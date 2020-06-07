@@ -8,4 +8,10 @@ export declare namespace Entities {
         ExtensionProperties: ProxyEntities.CommerceProperty[];
         constructor(odataObject?: any);
     }
+    class Language {
+        RecId: number;
+        LanguageId: string;
+        ExtensionProperties: ProxyEntities.CommerceProperty[];
+        constructor(odataObject?: any);
+    }
 }

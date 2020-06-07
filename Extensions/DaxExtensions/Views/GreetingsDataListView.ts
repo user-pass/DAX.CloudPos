@@ -84,6 +84,7 @@ export default class GreetingsDataListView extends KnockoutExtensionViewControll
 
         super.onReady(element);
         this.viewModel.loadDataPage();
+        this.viewModel.loadLanguages();
     }
 
     public showMenu(controller: GreetingsDataListView, eventArgs: Event): void {

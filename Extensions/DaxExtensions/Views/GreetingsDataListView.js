@@ -95,6 +95,7 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                 GreetingsDataListView.prototype.onReady = function (element) {
                     _super.prototype.onReady.call(this, element);
                     this.viewModel.loadDataPage();
+                    this.viewModel.loadLanguages();
                 };
                 GreetingsDataListView.prototype.showMenu = function (controller, eventArgs) {
                     this.menu.show(event.currentTarget);

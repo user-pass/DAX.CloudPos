@@ -69,11 +69,25 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                     var messageOptions = { label: "Please enter new message:" };
                     var messageText = "";
                     var corellationId;
+                    var languageText = "";
                     var messageRequest = new Commerce.ShowTextInputDialogClientRequest(messageOptions, corellationId);
                     this.context.runtime.executeAsync(messageRequest).then(function (result) {
                         if (!result.canceled) {
                             messageText = result.data.result.value.toString();
-                            GreetingsLanguageListDialog_1.default.show(_this.context, _this.languages);
+                            GreetingsLanguageListDialog_1.default.show(_this.context, _this.languages).then(function (result) {
+                                if (result) {
+                                    languageText = result.value;
+                                    var newInvitation = new DataServiceEntities_1.Entities.Invitation();
+                                    newInvitation.Language = languageText;
+                                    newInvitation.Message = messageText;
+                                    var dataService = new DataServiceRequests_1.InvitationController.InsertInvitationRequest(newInvitation);
+                                    _this.context.runtime.executeAsync(dataService).then(function (result) {
+                                        if (!result.canceled) {
+                                            _this.loadDataPage();
+                                        }
+                                    });
+                                }
+                            });
                         }
                     });
                 };
@@ -82,17 +96,15 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                     if (this.selectedLine) {
                         var messageOptions = { label: "Please enter new message:" };
                         var messageText_1 = "";
-                        var languageOptions_1 = { label: "Please enter new language:" };
                         var languageText_1 = "";
-                        var corellationId_1;
-                        var messageRequest = new Commerce.ShowTextInputDialogClientRequest(messageOptions, corellationId_1);
+                        var corellationId = void 0;
+                        var messageRequest = new Commerce.ShowTextInputDialogClientRequest(messageOptions, corellationId);
                         this.context.runtime.executeAsync(messageRequest).then(function (result) {
                             if (!result.canceled) {
                                 messageText_1 = result.data.result.value.toString();
-                                var languageRequest = new Commerce.ShowTextInputDialogClientRequest(languageOptions_1, corellationId_1);
-                                _this.context.runtime.executeAsync(languageRequest).then(function (result) {
-                                    if (!result.canceled) {
-                                        languageText_1 = result.data.result.value.toString();
+                                GreetingsLanguageListDialog_1.default.show(_this.context, _this.languages).then(function (result) {
+                                    if (result) {
+                                        languageText_1 = result.value;
                                         if (languageText_1) {
                                             var newInvitation = new DataServiceEntities_1.Entities.Invitation();
                                             newInvitation.Language = languageText_1;

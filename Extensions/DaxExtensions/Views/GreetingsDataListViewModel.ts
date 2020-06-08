@@ -57,7 +57,7 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
         let messageOptions: ITextInputDialogOptions = { label: "Please enter new message:" };
         let messageText = "";
         let corellationId: string;
- 
+        let languageText = "";
 
 
         let messageRequest: Commerce.ShowTextInputDialogClientRequest<Commerce.ShowTextInputDialogClientResponse> =
@@ -65,26 +65,21 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
         this.context.runtime.executeAsync(messageRequest).then((result: ClientEntities.ICancelableDataResult<Commerce.ShowTextInputDialogClientResponse>) => {
             if (!result.canceled) {
                 messageText = result.data.result.value.toString();
-                GreetingsLanguageListDialog.show(this.context, this.languages);
-                //let languageRequest: Commerce.ShowTextInputDialogClientRequest<Commerce.ShowTextInputDialogClientResponse> =
-                //    new Commerce.ShowTextInputDialogClientRequest(languageOptions, corellationId);
-                //this.context.runtime.executeAsync(languageRequest).then((result: ClientEntities.ICancelableDataResult<Commerce.ShowTextInputDialogClientResponse>) => {
-                //    if (!result.canceled) {
-                //        languageText = result.data.result.value.toString();
-                //        if (languageText) {
-                //            let newInvitation = new Entities.Invitation();
-                //            newInvitation.Language = languageText;
-                //            newInvitation.Message = messageText;
-                //            let dataService: InvitationController.InsertInvitationRequest<InvitationController.InsertInvitationResponse> =
-                //                new InvitationController.InsertInvitationRequest(newInvitation);
-                //            this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
-                //                if (!result.canceled) {
-                //                    this.loadDataPage();
-                //                }
-                //            });
-                //        }
-                //    }
-                //});
+                GreetingsLanguageListDialog.show(this.context, this.languages).then((result) => {
+                    if (result) {
+                        languageText = result.value;
+                        let newInvitation = new Entities.Invitation();
+                            newInvitation.Language = languageText;
+                            newInvitation.Message = messageText;
+                            let dataService: InvitationController.InsertInvitationRequest<InvitationController.InsertInvitationResponse> =
+                                new InvitationController.InsertInvitationRequest(newInvitation);
+                            this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
+                                if (!result.canceled) {
+                                    this.loadDataPage();
+                                }
+                            });
+                    }
+                });
             }
         });
     }
@@ -94,7 +89,6 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
 
             let messageOptions: ITextInputDialogOptions = { label: "Please enter new message:" };
             let messageText = "";
-            let languageOptions: ITextInputDialogOptions = { label: "Please enter new language:" };
             let languageText = "";
             let corellationId: string;
 
@@ -103,11 +97,9 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
             this.context.runtime.executeAsync(messageRequest).then((result: ClientEntities.ICancelableDataResult<Commerce.ShowTextInputDialogClientResponse>) => {
                 if (!result.canceled) {
                     messageText = result.data.result.value.toString();
-                    let languageRequest: Commerce.ShowTextInputDialogClientRequest<Commerce.ShowTextInputDialogClientResponse> =
-                        new Commerce.ShowTextInputDialogClientRequest(languageOptions, corellationId);
-                    this.context.runtime.executeAsync(languageRequest).then((result: ClientEntities.ICancelableDataResult<Commerce.ShowTextInputDialogClientResponse>) => {
-                        if (!result.canceled) {
-                            languageText = result.data.result.value.toString();
+                    GreetingsLanguageListDialog.show(this.context, this.languages).then((result) => {
+                        if (result) {
+                            languageText = result.value;
                             if (languageText) {
                                 let newInvitation = new Entities.Invitation();
                                 newInvitation.Language = languageText;

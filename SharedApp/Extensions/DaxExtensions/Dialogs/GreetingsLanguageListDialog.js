@@ -16,9 +16,13 @@ System.register(["PosApi/Consume/Dialogs"], function (exports_1, context_1) {
                     var promise = new Promise(function (resolve, reject) {
                         var title;
                         var message;
-                        var dataList;
-                        dataList = [];
-                        console.log(listItems().length);
+                        var dataList = listItems().map(function (listItem) {
+                            var convertedListItem = {
+                                label: listItem.LanguageId,
+                                value: listItem.LanguageId
+                            };
+                            return convertedListItem;
+                        });
                         var listInputDialogOptions = {
                             title: title,
                             subTitle: message,

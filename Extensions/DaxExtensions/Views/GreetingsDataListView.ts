@@ -75,6 +75,11 @@ export default class GreetingsDataListView extends KnockoutExtensionViewControll
                     id: "updateSelected",
                     label: "Update selected record",
                     onClick: this.viewModel.menuCommandClickUpdateSelected.bind(this.viewModel)
+                },
+                {
+                    id: "filterInvitation",
+                    label: "Filter invitation by language",
+                    onClick: this.viewModel.menuCommandClickFilterInvitation.bind(this.viewModel)
                 }
             ]
         });

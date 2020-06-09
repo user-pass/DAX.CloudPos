@@ -130,13 +130,14 @@
     <TypeScriptCompile Include="DaxExtensions\Operations\GreetingsView\GreetingsViewOperationRequestFactory.ts" />
     <TypeScriptCompile Include="DaxExtensions\Operations\GreetingsView\GreetingsViewOperationRequestHandler.ts" />
     <TypeScriptCompile Include="DaxExtensions\Operations\GreetingsView\GreetingsViewOperationResponse.ts" />
-    <TypeScriptCompile Include="DaxExtensions\TriggerHandlers\PreLogonTrigger.ts" />
-    <TypeScriptCompile Include="DaxExtensions\TriggerHandlers\PreProductSaleTrigger.ts" />
     <TypeScriptCompile Include="DaxExtensions\ViewExtensions\CustomerDetailsPanel.ts" />
     <TypeScriptCompile Include="DaxExtensions\Views\GreetingsDataListView.ts" />
     <TypeScriptCompile Include="DaxExtensions\Views\GreetingsDataListViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DaxExtensions\TriggerHandlers\" />
   </ItemGroup>
 </Project>

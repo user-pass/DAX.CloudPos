@@ -62,15 +62,15 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                 InvitationController.GetInvitationResponse = GetInvitationResponse;
                 var GetInvitationRequest = (function (_super) {
                     __extends(GetInvitationRequest, _super);
-                    function GetInvitationRequest() {
+                    function GetInvitationRequest(getInvitationRecord) {
                         var _this = _super.call(this) || this;
                         _this._entitySet = "InvitationController";
                         _this._entityType = "Invitation";
                         _this._method = "GetInvitation";
-                        _this._parameters = {};
+                        _this._parameters = { getInvitationRecord: getInvitationRecord };
                         _this._isAction = true;
-                        _this._returnType = null;
-                        _this._isReturnTypeCollection = false;
+                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
+                        _this._isReturnTypeCollection = true;
                         return _this;
                     }
                     return GetInvitationRequest;

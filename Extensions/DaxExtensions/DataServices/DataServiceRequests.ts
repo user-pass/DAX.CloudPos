@@ -30,23 +30,23 @@ export namespace InvitationController {
   }
 
   export class GetInvitationResponse extends DataServiceResponse {
-    public result: string;
+    public result: Entities.Invitation[];
   }
 
   export class GetInvitationRequest<TResponse extends GetInvitationResponse> extends DataServiceRequest<TResponse> {
     /**
      * Constructor
      */
-      public constructor() {
+      public constructor(getInvitationRecord: Entities.Invitation) {
         super();
 
         this._entitySet = "InvitationController";
         this._entityType = "Invitation";
         this._method = "GetInvitation";
-        this._parameters = {  };
+        this._parameters = { getInvitationRecord: getInvitationRecord };
         this._isAction = true;
-        this._returnType = null;
-        this._isReturnTypeCollection = false;
+        this._returnType = Entities.Invitation;
+        this._isReturnTypeCollection = true;
         
       }
   }

@@ -69,15 +69,15 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
                     if (result) {
                         languageText = result.value;
                         let newInvitation = new Entities.Invitation();
-                            newInvitation.Language = languageText;
-                            newInvitation.Message = messageText;
-                            let dataService: InvitationController.InsertInvitationRequest<InvitationController.InsertInvitationResponse> =
-                                new InvitationController.InsertInvitationRequest(newInvitation);
-                            this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
-                                if (!result.canceled) {
-                                    this.loadDataPage();
-                                }
-                            });
+                        newInvitation.Language = languageText;
+                        newInvitation.Message = messageText;
+                        let dataService: InvitationController.InsertInvitationRequest<InvitationController.InsertInvitationResponse> =
+                            new InvitationController.InsertInvitationRequest(newInvitation);
+                        this.context.runtime.executeAsync(dataService).then((result: ClientEntities.ICancelableDataResult<InvitationController.DeleteInvitationResponse>): void => {
+                            if (!result.canceled) {
+                                this.loadDataPage();
+                            }
+                        });
                     }
                 });
             }
@@ -121,6 +121,21 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
         } else {
             alert("Line is not selected");
         }
+    }
+
+    public menuCommandClickFilterInvitation(args: Menu.IMenuCommandClickArgs): void {
+
+        let languageText = "";
+        GreetingsLanguageListDialog.show(this.context, this.languages).then((result) => {
+
+            if (result) {
+                languageText = result.value;
+                var array = this.invitations().filter(entity => entity.Language == languageText);
+                this.invitations.removeAll;
+                this.invitations(array);
+            }
+
+        });
     }
 
     public loadDataPage(): void {

@@ -126,6 +126,18 @@ System.register(["../DataServices/DataServiceRequests", "../DataServices/DataSer
                         alert("Line is not selected");
                     }
                 };
+                GreetingsDataListViewModel.prototype.menuCommandClickFilterInvitation = function (args) {
+                    var _this = this;
+                    var languageText = "";
+                    GreetingsLanguageListDialog_1.default.show(this.context, this.languages).then(function (result) {
+                        if (result) {
+                            languageText = result.value;
+                            var array = _this.invitations().filter(function (entity) { return entity.Language == languageText; });
+                            _this.invitations.removeAll;
+                            _this.invitations(array);
+                        }
+                    });
+                };
                 GreetingsDataListViewModel.prototype.loadDataPage = function () {
                     var _this = this;
                     var dataService = new DataServiceRequests_1.InvitationController.GetAllInvitationsRequest();

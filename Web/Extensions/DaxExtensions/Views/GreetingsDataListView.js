@@ -87,6 +87,11 @@ System.register(["PosUISdk/Controls/HeaderSplitView", "PosUISdk/Controls/Menu", 
                                 id: "updateSelected",
                                 label: "Update selected record",
                                 onClick: _this.viewModel.menuCommandClickUpdateSelected.bind(_this.viewModel)
+                            },
+                            {
+                                id: "filterInvitation",
+                                label: "Filter invitation by language",
+                                onClick: _this.viewModel.menuCommandClickFilterInvitation.bind(_this.viewModel)
                             }
                         ]
                     });

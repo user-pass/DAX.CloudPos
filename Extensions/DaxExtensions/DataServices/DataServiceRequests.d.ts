@@ -11,10 +11,10 @@ export declare namespace InvitationController {
         constructor();
     }
     class GetInvitationResponse extends DataServiceResponse {
-        result: string;
+        result: Entities.Invitation[];
     }
     class GetInvitationRequest<TResponse extends GetInvitationResponse> extends DataServiceRequest<TResponse> {
-        constructor();
+        constructor(getInvitationRecord: Entities.Invitation);
     }
     class DeleteInvitationResponse extends DataServiceResponse {
         result: boolean;

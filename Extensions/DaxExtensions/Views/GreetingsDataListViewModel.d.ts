@@ -13,6 +13,7 @@ export default class GreetingsDataListViewModel extends KnockoutExtensionViewMod
     menuCommandClickDeleteAll(args: Menu.IMenuCommandClickArgs): void;
     menuCommandClickAddNewRecord(args: Menu.IMenuCommandClickArgs): void;
     menuCommandClickUpdateSelected(args: Menu.IMenuCommandClickArgs): void;
+    menuCommandClickFilterInvitation(args: Menu.IMenuCommandClickArgs): void;
     loadDataPage(): void;
     loadLanguages(): void;
 }

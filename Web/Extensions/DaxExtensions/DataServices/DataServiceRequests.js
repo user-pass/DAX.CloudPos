@@ -52,30 +52,6 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                     return GetAllInvitationsRequest;
                 }(DataService_1.DataServiceRequest));
                 InvitationController.GetAllInvitationsRequest = GetAllInvitationsRequest;
-                var GetInvitationResponse = (function (_super) {
-                    __extends(GetInvitationResponse, _super);
-                    function GetInvitationResponse() {
-                        return _super !== null && _super.apply(this, arguments) || this;
-                    }
-                    return GetInvitationResponse;
-                }(DataService_1.DataServiceResponse));
-                InvitationController.GetInvitationResponse = GetInvitationResponse;
-                var GetInvitationRequest = (function (_super) {
-                    __extends(GetInvitationRequest, _super);
-                    function GetInvitationRequest(getInvitationRecord) {
-                        var _this = _super.call(this) || this;
-                        _this._entitySet = "InvitationController";
-                        _this._entityType = "Invitation";
-                        _this._method = "GetInvitation";
-                        _this._parameters = { getInvitationRecord: getInvitationRecord };
-                        _this._isAction = true;
-                        _this._returnType = DataServiceEntities_1.Entities.Invitation;
-                        _this._isReturnTypeCollection = true;
-                        return _this;
-                    }
-                    return GetInvitationRequest;
-                }(DataService_1.DataServiceRequest));
-                InvitationController.GetInvitationRequest = GetInvitationRequest;
                 var DeleteInvitationResponse = (function (_super) {
                     __extends(DeleteInvitationResponse, _super);
                     function DeleteInvitationResponse() {

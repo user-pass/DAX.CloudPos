@@ -6,19 +6,18 @@
   "minimumPosVersion": "7.2.0.0",
   "components": {
     "extend": {
-      "triggers": [
-        {
-          "triggerType": "PreProductSale",
-          "modulePath": "TriggerHandlers/PreProductSaleTrigger"
-        },
-        {
-          "triggerType": "PreLogOn",
-          "modulePath": "TriggerHandlers/PreLogonTrigger"
-        }
-      ],
       "views": {
+        "ShowJournalView": {
+          "searchFilters": [
+            {
+              "modulePath": "ViewExtensions/SSNNumberCustomerSearchFilter"
+            }
+          ]
+        },
         "CustomerDetailsView": {
+
           "controlsConfig": {
+
             "customControls": [
               {
                 "controlName": "CustomerDetailsPanel",

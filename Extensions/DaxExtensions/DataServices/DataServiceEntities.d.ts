@@ -14,4 +14,11 @@ export declare namespace Entities {
         ExtensionProperties: ProxyEntities.CommerceProperty[];
         constructor(odataObject?: any);
     }
+    class TenderTypeModel {
+        TenderTypeModelId: string;
+        Name: string;
+        DraftNeeded: boolean;
+        ExtensionProperties: ProxyEntities.CommerceProperty[];
+        constructor(odataObject?: any);
+    }
 }

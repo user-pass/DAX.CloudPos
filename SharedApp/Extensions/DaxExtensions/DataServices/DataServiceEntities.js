@@ -68,6 +68,35 @@ System.register(["PosApi/Entities"], function (exports_1, context_1) {
                     return Language;
                 }());
                 Entities.Language = Language;
+                var TenderTypeModel = (function () {
+                    function TenderTypeModel(odataObject) {
+                        odataObject = odataObject || {};
+                        this.TenderTypeModelId = odataObject.TenderTypeModelId;
+                        this.Name = odataObject.Name;
+                        this.DraftNeeded = odataObject.DraftNeeded;
+                        this.ExtensionProperties = undefined;
+                        if (odataObject.ExtensionProperties) {
+                            this.ExtensionProperties = [];
+                            for (var i = 0; i < odataObject.ExtensionProperties.length; i++) {
+                                if (odataObject.ExtensionProperties[i] != null) {
+                                    if (odataObject.ExtensionProperties[i]['@odata.type'] != null) {
+                                        var className = odataObject.ExtensionProperties[i]['@odata.type'];
+                                        className = className.substr(className.lastIndexOf('.') + 1).concat("Class");
+                                        this.ExtensionProperties[i] = new Entities_1.ProxyEntities[className](odataObject.ExtensionProperties[i]);
+                                    }
+                                    else {
+                                        this.ExtensionProperties[i] = new Entities_1.ProxyEntities.CommercePropertyClass(odataObject.ExtensionProperties[i]);
+                                    }
+                                }
+                                else {
+                                    this.ExtensionProperties[i] = undefined;
+                                }
+                            }
+                        }
+                    }
+                    return TenderTypeModel;
+                }());
+                Entities.TenderTypeModel = TenderTypeModel;
             })(Entities || (Entities = {}));
             exports_1("Entities", Entities);
         }

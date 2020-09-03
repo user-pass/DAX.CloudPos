@@ -27,8 +27,12 @@
             ]
           }
         }
-      }
-
+      },
+      "requestHandlers": [
+        {
+          "modulePath": "RequestHandlers/ShowChangeDueClientRequestHandler"
+        }
+      ]
     },
     "create": {
       "operations": [

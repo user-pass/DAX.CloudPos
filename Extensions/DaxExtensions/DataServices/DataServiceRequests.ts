@@ -144,3 +144,29 @@ export namespace LanguageController {
   }
 
 }
+
+export namespace TenderTypeController {
+  // Entity Set TenderTypeModel
+  export class GetTenderTypesResponse extends DataServiceResponse {
+    public result: Entities.TenderTypeModel[];
+  }
+
+  export class GetTenderTypesRequest<TResponse extends GetTenderTypesResponse> extends DataServiceRequest<TResponse> {
+    /**
+     * Constructor
+     */
+      public constructor() {
+        super();
+
+        this._entitySet = "TenderTypeController";
+        this._entityType = "TenderTypeModel";
+        this._method = "GetTenderTypes";
+        this._parameters = {  };
+        this._isAction = true;
+        this._returnType = Entities.TenderTypeModel;
+        this._isReturnTypeCollection = true;
+        
+      }
+  }
+
+}

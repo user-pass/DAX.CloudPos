@@ -11,7 +11,7 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
         };
     })();
     var __moduleName = context_1 && context_1.id;
-    var Entities_1, DataServiceEntities_1, DataService_1, InvitationController, LanguageController;
+    var Entities_1, DataServiceEntities_1, DataService_1, InvitationController, LanguageController, TenderTypeController;
     return {
         setters: [
             function (Entities_1_1) {
@@ -177,6 +177,33 @@ System.register(["PosApi/Entities", "./DataServiceEntities", "PosApi/Consume/Dat
                 LanguageController.GetAllLanguagesRequest = GetAllLanguagesRequest;
             })(LanguageController || (LanguageController = {}));
             exports_1("LanguageController", LanguageController);
+            (function (TenderTypeController) {
+                var GetTenderTypesResponse = (function (_super) {
+                    __extends(GetTenderTypesResponse, _super);
+                    function GetTenderTypesResponse() {
+                        return _super !== null && _super.apply(this, arguments) || this;
+                    }
+                    return GetTenderTypesResponse;
+                }(DataService_1.DataServiceResponse));
+                TenderTypeController.GetTenderTypesResponse = GetTenderTypesResponse;
+                var GetTenderTypesRequest = (function (_super) {
+                    __extends(GetTenderTypesRequest, _super);
+                    function GetTenderTypesRequest() {
+                        var _this = _super.call(this) || this;
+                        _this._entitySet = "TenderTypeController";
+                        _this._entityType = "TenderTypeModel";
+                        _this._method = "GetTenderTypes";
+                        _this._parameters = {};
+                        _this._isAction = true;
+                        _this._returnType = DataServiceEntities_1.Entities.TenderTypeModel;
+                        _this._isReturnTypeCollection = true;
+                        return _this;
+                    }
+                    return GetTenderTypesRequest;
+                }(DataService_1.DataServiceRequest));
+                TenderTypeController.GetTenderTypesRequest = GetTenderTypesRequest;
+            })(TenderTypeController || (TenderTypeController = {}));
+            exports_1("TenderTypeController", TenderTypeController);
         }
     };
 });

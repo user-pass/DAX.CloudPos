@@ -43,3 +43,11 @@ export declare namespace LanguageController {
         constructor();
     }
 }
+export declare namespace TenderTypeController {
+    class GetTenderTypesResponse extends DataServiceResponse {
+        result: Entities.TenderTypeModel[];
+    }
+    class GetTenderTypesRequest<TResponse extends GetTenderTypesResponse> extends DataServiceRequest<TResponse> {
+        constructor();
+    }
+}
